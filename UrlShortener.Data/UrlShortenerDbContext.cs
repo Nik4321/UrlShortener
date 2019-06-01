@@ -5,11 +5,9 @@ using UrlShortener.Data.Models.Interfaces;
 
 namespace UrlShortener.Data
 {
-    public class ApplicationDbContext : DbContext
+    public class UrlShortenerDbContext : DbContext
     {
-        public ApplicationDbContext(DbContextOptions options) : base(options)
-        {
-        }
+        public UrlShortenerDbContext(DbContextOptions options) : base(options)  { }
 
         public override int SaveChanges()
         {

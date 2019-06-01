@@ -22,7 +22,7 @@ namespace UrlShortener.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services
-                .AddDbContextPool<ApplicationDbContext>(
+                .AddDbContext<UrlShortenerDbContext>(
                     options => options.UseMySql(this.Configuration.GetConnectionString("DefaultConnection"),
                     mySqlOptions =>
                     {
