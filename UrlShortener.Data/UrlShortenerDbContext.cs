@@ -1,11 +1,14 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using UrlShortener.Data.Models;
 using UrlShortener.Data.Models.Interfaces;
 
 namespace UrlShortener.Data
 {
-    public class UrlShortenerDbContext : DbContext
+    public class UrlShortenerDbContext : IdentityDbContext<User, UserRole, int>
     {
         public UrlShortenerDbContext(DbContextOptions options) : base(options)  { }
 
@@ -23,6 +26,14 @@ namespace UrlShortener.Data
         protected override void OnModelCreating(ModelBuilder builder)
         {
             base.OnModelCreating(builder);
+
+            builder.Entity<User>().ToTable("Users");
+            builder.Entity<UserRole>().ToTable("Roles");
+            builder.Entity<IdentityUserRole<int>>().ToTable("UserRoles");
+            builder.Entity<IdentityUserLogin<int>>().ToTable("UserLogins");
+            builder.Entity<IdentityUserClaim<int>>().ToTable("UserClaims");
+            builder.Entity<IdentityUserToken<int>>().ToTable("UserTokens");
+            builder.Entity<IdentityRoleClaim<int>>().ToTable("RoleClaims");
         }
 
         private void ApplyAuditRules()

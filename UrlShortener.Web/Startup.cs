@@ -1,12 +1,14 @@
 ﻿using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using UrlShortener.Data;
+using UrlShortener.Data.Models;
 
 namespace UrlShortener.Web
 {
@@ -30,11 +32,14 @@ namespace UrlShortener.Web
                     }
                 ));
 
+            services.AddIdentity<User, UserRole>()
+                .AddEntityFrameworkStores<UrlShortenerDbContext>()
+                .AddDefaultTokenProviders();
+
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
         {
             if (env.IsDevelopment())
