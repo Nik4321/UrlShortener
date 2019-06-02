@@ -10,6 +10,8 @@ namespace UrlShortener.Data
 {
     public class UrlShortenerDbContext : IdentityDbContext<User, UserRole, int>
     {
+        public DbSet<Url> Urls { get; set; }
+
         public UrlShortenerDbContext(DbContextOptions options) : base(options)  { }
 
         public override int SaveChanges()
