@@ -80,6 +80,9 @@ namespace UrlShortener.Web
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+
+            services.AddHealthChecks()
+                .AddDbContextCheck<UrlShortenerDbContext>();
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
@@ -93,6 +96,8 @@ namespace UrlShortener.Web
                 // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
                 app.UseHsts();
             }
+
+            app.UseHealthChecks("/health");
 
             app.UseSwagger();
             app.UseSwaggerUI(c =>
