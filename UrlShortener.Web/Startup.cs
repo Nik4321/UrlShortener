@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
+using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -14,6 +15,7 @@ using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
 using UrlShortener.Data;
 using UrlShortener.Data.Models;
 using UrlShortener.Infrastructure.Settings;
+using UrlShortener.Services;
 
 namespace UrlShortener.Web
 {
@@ -31,17 +33,19 @@ namespace UrlShortener.Web
             services
                 .AddDbContext<UrlShortenerDbContext>(
                     options => options.UseMySql(this.Configuration.GetConnectionString("DefaultConnection"),
-                    mySqlOptions =>
-                    {
-                        mySqlOptions.ServerVersion(new Version(10, 1, 40), ServerType.MariaDb);
-                    }
-                ));
+                        sqlOptions =>
+                        {
+                            sqlOptions.ServerVersion(new Version(10, 1, 40), ServerType.MariaDb);
+                        }));
 
             services.AddIdentity<User, UserRole>()
                 .AddEntityFrameworkStores<UrlShortenerDbContext>()
                 .AddDefaultTokenProviders();
 
             services.Configure<JwtSettings>(this.Configuration.GetSection(nameof(JwtSettings)));
+
+            services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IUrlService, UrlService>();
 
             JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
             services
@@ -64,6 +68,8 @@ namespace UrlShortener.Web
                         ClockSkew = TimeSpan.Zero
                     };
                 });
+
+            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 
             services.AddMvc()
                 .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
