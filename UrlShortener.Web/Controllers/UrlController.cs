@@ -11,6 +11,7 @@ namespace UrlShortener.Web.Controllers
     {
         private readonly IMapper mapper;
         private readonly IUrlService urlService;
+
         public UrlController(IMapper mapper, IUrlService urlService)
         {
             this.mapper = mapper;
