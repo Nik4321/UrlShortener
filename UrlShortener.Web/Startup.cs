@@ -17,6 +17,7 @@ using UrlShortener.Data;
 using UrlShortener.Data.Models;
 using UrlShortener.Infrastructure.Settings;
 using UrlShortener.Services;
+using UrlShortener.Web.Extensions;
 
 namespace UrlShortener.Web
 {
@@ -31,58 +32,7 @@ namespace UrlShortener.Web
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services
-                .AddDbContext<UrlShortenerDbContext>(
-                    options => options.UseMySql(this.Configuration.GetConnectionString("DefaultConnection"),
-                        sqlOptions =>
-                        {
-                            sqlOptions.ServerVersion(new Version(10, 1, 40), ServerType.MariaDb);
-                        }));
-
-            services.AddIdentity<User, UserRole>()
-                .AddEntityFrameworkStores<UrlShortenerDbContext>()
-                .AddDefaultTokenProviders();
-
-            services.Configure<JwtSettings>(this.Configuration.GetSection(nameof(JwtSettings)));
-
-            services.AddScoped<IUserService, UserService>();
-            services.AddScoped<IUrlService, UrlService>();
-
-            JwtSecurityTokenHandler.DefaultInboundClaimTypeMap.Clear();
-            services
-                .AddAuthentication(options =>
-                {
-                    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
-                    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-                })
-                .AddJwtBearer(cfg =>
-                {
-                    var jwtSettings = this.Configuration.GetSection(nameof(JwtSettings));
-                    cfg.RequireHttpsMetadata = false;
-                    cfg.SaveToken = true;
-                    cfg.TokenValidationParameters = new TokenValidationParameters
-                    {
-                        ValidIssuer = jwtSettings[nameof(JwtSettings.Authority)],
-                        ValidAudience = jwtSettings[nameof(JwtSettings.Audience)],
-                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings[nameof(JwtSettings.Secret)])),
-                        ClockSkew = TimeSpan.Zero
-                    };
-                });
-
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-
-            services.AddSwaggerGen(c =>
-            {
-                c.SwaggerDoc("v1", new Info { Title = "Url Shortener API", Version = "v1" });
-            });
-
-
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-
-            services.AddHealthChecks()
-                .AddDbContextCheck<UrlShortenerDbContext>();
+            services.RegisterApplicationServices(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)

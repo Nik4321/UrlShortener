@@ -44,6 +44,7 @@ namespace UrlShortener.Web.Controllers
             var result = this.urlService.ShortenUrl(model.LongUrl, model.ExpireDate);
             var response = this.mapper.Map<ResponseUrl>(result);
             response.ShortUrl = this.FormatShortUrlResponse(response.ShortUrl);
+
             return this.Created(nameof(ShortenUrl), response);
         }
 

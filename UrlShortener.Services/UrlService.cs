@@ -23,7 +23,6 @@ namespace UrlShortener.Services
                 LongUrl = longUrl,
                 ShortUrl = shortUrl,
                 CreatedOn = DateTime.UtcNow,
-                ExpirationDate = DateTime.UtcNow.AddMinutes(15)
             };
 
             if (expireDate.HasValue && expireDate.Value > 0)
