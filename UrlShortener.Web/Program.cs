@@ -2,11 +2,14 @@
 using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using UrlShortener.Data;
 using UrlShortener.Data.Extensions;
 using UrlShortener.Data.Models;
+
+[assembly: ApiConventionType(typeof(DefaultApiConventions))]
 
 namespace UrlShortener.Web
 {

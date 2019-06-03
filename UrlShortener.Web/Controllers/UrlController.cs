@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using UrlShortener.Models.Errors;
 using UrlShortener.Models.Url;
 using UrlShortener.Services;
+using Microsoft.AspNetCore.Http;
 
 namespace UrlShortener.Web.Controllers
 {
@@ -19,13 +20,10 @@ namespace UrlShortener.Web.Controllers
         }
 
         [HttpGet("/{shortUrl}")]
+        [ProducesResponseType(StatusCodes.Status400BadRequest)]
+        [ProducesDefaultResponseType]
         public IActionResult Get(string shortUrl)
         {
-            if (!this.ModelState.IsValid)
-            {
-                return this.BadRequest(this.ModelState);
-            }
-
             var url = this.urlService.GetUrlByShortUrl(shortUrl);
             if (url == null) return this.GetUrlErrorResponse(400, "Not found", "Url not found");
 
@@ -39,13 +37,10 @@ namespace UrlShortener.Web.Controllers
         }
 
         [HttpPost("/")]
+        [ProducesResponseType(StatusCodes.Status201Created)]
+        [ProducesDefaultResponseType]
         public IActionResult ShortenUrl([FromQuery] CreateUrl model)
         {
-            if (!this.ModelState.IsValid)
-            {
-                return this.BadRequest(this.ModelState);
-            }
-
             var result = this.urlService.ShortenUrl(model.LongUrl, model.ExpireDate);
             var response = this.mapper.Map<ResponseUrl>(result);
             response.ShortUrl = this.FormatShortUrlResponse(response.ShortUrl);

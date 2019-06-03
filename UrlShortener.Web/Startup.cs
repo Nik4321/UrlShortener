@@ -97,7 +97,7 @@ namespace UrlShortener.Web
             app.UseSwagger();
             app.UseSwaggerUI(c =>
             {
-                c.SwaggerEndpoint("/swagger/v1/urlShortenerSwagger.json", "Url Shortener API V1");
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Url Shortener API V1");
             });
 
             app.UseAuthentication();
