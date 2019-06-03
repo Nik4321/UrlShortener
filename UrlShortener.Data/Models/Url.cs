@@ -9,7 +9,5 @@ namespace UrlShortener.Data.Models
         public string LongUrl { get; set; }
 
         public DateTime? ExpirationDate { get; set; }
-
-        public string ExpireLinkUrl { get; set; }
     }
 }
