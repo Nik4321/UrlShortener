@@ -1,0 +1,158 @@
+﻿using System;
+using System.Collections.Generic;
+using NUnit.Framework;
+using FluentAssertions;
+using Moq;
+using UrlShortener.Data;
+using UrlShortener.Data.Models;
+using UrlShortener.Infrastructure.Constants;
+using UrlShortener.Infrastructure.Exceptions;
+using UrlShortener.Services;
+
+namespace UrlShortener.UnitTests.Services
+{
+    [TestFixture]
+    public class UrlTest : BaseTest
+    {
+        private const string TestLongUrl = "https://google.com/";
+
+        private UrlService urlService;
+
+        [SetUp]
+        public override void SetUp()
+        {
+            base.SetUp();
+            this.urlService = new UrlService(this.db);
+            AddFakeUrlsToDb(this.db);
+        }
+
+        [TearDown]
+        public void TearDown()
+        {
+            this.db.Database.EnsureDeleted();
+        }
+
+        #region ShortenUrlTests
+
+        [Test]
+        public void ShortenUrl_WhenCalledWithValidUrl_ReturnsObjectOfTypeUrl()
+        {
+            // Act
+            var result = this.urlService.ShortenUrl(TestLongUrl);
+
+            // Assert
+            result.Should().BeOfType<Url>();
+        }
+
+        [Test]
+        public void ShortenUrl_WhenCalledWithValidUrl_ReturnsCorrectUrlObject()
+        {
+            // Act
+            var result = this.urlService.ShortenUrl(TestLongUrl);
+
+            // Assert
+            result.Should()
+                .Match<Url>(x => x.LongUrl == TestLongUrl);
+        }
+
+        [Test]
+        public void ShortenUrl_WhenCalledWithInvalidUrl_ThrowsInvalidUrlException()
+        {
+            // Act
+            var result = this.urlService.Invoking(x => x.ShortenUrl(It.IsAny<string>()));
+
+            // Assert
+            result.Should()
+                .Throw<InvalidUrlException>()
+                .WithMessage(ExceptionMessagesConstants.InvalidUrlExceptionMessage);
+        }
+
+        #endregion
+
+        #region GetUrlByShortUrlTests
+
+        [Test]
+        public void GetUrlByShortUrl_WhenCalledWithExistingEntity_ReturnsCorrectType()
+        {
+            // Act
+            var result = this.urlService.GetUrlByShortUrl("197dec01");
+
+            // Assert
+            result.Should().NotBeNull().And.BeOfType<Url>();
+        }
+
+        [Test]
+        public void GetUrlByShortUrl_WhenCalledWithNonExistingEntity_ReturnsNull()
+        {
+            // Act
+            var result = this.urlService.GetUrlByShortUrl(It.IsAny<string>());
+
+            // Assert
+            result.Should().BeNull();
+        }
+
+        #endregion
+
+        #region  HasUrlExpiredTests
+
+        [Test]
+        [TestCase(5, false)]
+        [TestCase(-5, true)]
+        public void HasUrlExpired_WithExpirationDate_ReturnsCorrectBoolean(int hoursToAddToExpiration, bool expectedResult)
+        {
+            // Arrange
+            var url = new Url
+            {
+                ShortUrl = "197dec01",
+                LongUrl = TestLongUrl,
+                ExpirationDate = DateTime.UtcNow.AddHours(hoursToAddToExpiration)
+            };
+
+            // Act
+            var result = this.urlService.HasUrlExpired(url);
+
+            // Assert
+            result.Should().Be(expectedResult);
+        }
+
+        [Test]
+        public void HasUrlExpired_WithNoExpiredDate_ReturnsTrue()
+        {
+            // Arrange
+            var url = new Url
+            {
+                ShortUrl = "197dec01",
+                LongUrl = TestLongUrl,
+                ExpirationDate = null
+            };
+
+            // Act
+            var result = this.urlService.HasUrlExpired(url);
+
+            // Assert
+            result.Should().BeFalse();
+        }
+
+        #endregion
+
+        #region Helper methods
+
+        private static void AddFakeUrlsToDb(UrlShortenerDbContext db)
+        {
+            IList<Url> urls = new List<Url>
+            {
+                new Url
+                {
+                    ShortUrl = "197dec01",
+                    LongUrl = TestLongUrl,
+                    ExpirationDate = DateTime.UtcNow.AddHours(1)
+                }
+            };
+
+            db.Urls.AddRange(urls);
+            db.SaveChanges();
+        }
+
+        #endregion
+    }
+}

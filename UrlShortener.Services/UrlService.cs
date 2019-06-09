@@ -2,6 +2,9 @@
 using System.Linq;
 using UrlShortener.Data;
 using UrlShortener.Data.Models;
+using UrlShortener.Infrastructure.Constants;
+using UrlShortener.Infrastructure.Exceptions;
+using UrlShortener.Infrastructure.Extensions;
 
 namespace UrlShortener.Services
 {
@@ -16,13 +19,17 @@ namespace UrlShortener.Services
 
         public Url ShortenUrl(string longUrl, long? expireDate = null)
         {
-            var shortUrl = this.GenerateShortUrl();
+            var isLongUrlValid = longUrl.IsValidUrl();
+            if (!isLongUrlValid)
+            {
+                throw new InvalidUrlException(ExceptionMessagesConstants.InvalidUrlExceptionMessage);
+            }
 
+            var shortUrl = this.GenerateShortUrl();
             var url = new Url
             {
                 LongUrl = longUrl,
-                ShortUrl = shortUrl,
-                CreatedOn = DateTime.UtcNow,
+                ShortUrl = shortUrl
             };
 
             if (expireDate.HasValue && expireDate.Value > 0)
@@ -35,7 +42,7 @@ namespace UrlShortener.Services
         }
 
         public Url GetUrlByShortUrl(string shortUrl) =>
-            this.db.Urls.FirstOrDefault(x => x.ShortUrl == shortUrl);
+            this.AllUrls().FirstOrDefault(x => x.ShortUrl == shortUrl);
 
         public bool HasUrlExpired(Url url)
         {
@@ -49,6 +56,9 @@ namespace UrlShortener.Services
 
         #region Helper Methods
 
+        private IQueryable<Url> AllUrls() =>
+            this.db.Urls;
+
         private void CreateUrl(Url url)
         {
             this.db.Urls.Add(url);
@@ -61,7 +71,7 @@ namespace UrlShortener.Services
             {
                 var url = Guid.NewGuid().ToString().Substring(0, 8);
 
-                var exists = this.db.Urls.Any(u => u.ShortUrl == url);
+                var exists = this.AllUrls().Any(u => u.ShortUrl == url);
                 if (!exists)
                 {
                     return url;
