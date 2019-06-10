@@ -14,6 +14,7 @@ using Swashbuckle.AspNetCore.Swagger;
 using UrlShortener.Data;
 using UrlShortener.Data.Models;
 using UrlShortener.Infrastructure.Settings;
+using UrlShortener.Repositories;
 using UrlShortener.Services;
 
 namespace UrlShortener.Web.Extensions
@@ -23,7 +24,8 @@ namespace UrlShortener.Web.Extensions
         public static void RegisterApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
             RegisterDbContext(services, configuration);
-            RegisterScopedServices(services);
+            RegisterServices(services);
+            RegisterRepositories(services);
             RegisterAutoMapper(services);
             RegisterSwagger(services);
             RegisterMvc(services);
@@ -45,10 +47,15 @@ namespace UrlShortener.Web.Extensions
                 .AddDbContextCheck<UrlShortenerDbContext>();
         }
 
-        private static void RegisterScopedServices(IServiceCollection services)
+        private static void RegisterServices(IServiceCollection services)
         {
             services.AddScoped<IUserService, UserService>();
             services.AddScoped<IUrlService, UrlService>();
+        }
+
+        private static void RegisterRepositories(IServiceCollection services)
+        {
+            services.AddScoped<IUrlRepository, UrlRepository>();
         }
 
         private static void RegisterAutoMapper(IServiceCollection services)

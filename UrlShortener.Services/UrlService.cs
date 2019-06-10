@@ -1,23 +1,24 @@
 ﻿using System;
 using System.Linq;
-using UrlShortener.Data;
+using System.Threading.Tasks;
 using UrlShortener.Data.Models;
 using UrlShortener.Infrastructure.Constants;
 using UrlShortener.Infrastructure.Exceptions;
 using UrlShortener.Infrastructure.Extensions;
+using UrlShortener.Repositories;
 
 namespace UrlShortener.Services
 {
     public class UrlService : IUrlService
     {
-        private readonly UrlShortenerDbContext db;
+        private readonly IUrlRepository urlRepository;
 
-        public UrlService(UrlShortenerDbContext db)
+        public UrlService(IUrlRepository urlRepository)
         {
-            this.db = db;
+            this.urlRepository = urlRepository;
         }
 
-        public Url ShortenUrl(string longUrl, long? expireDate = null)
+        public async Task<Url> ShortenUrl(string longUrl, long? expireDate = null)
         {
             var isLongUrlValid = longUrl.IsValidUrl();
             if (!isLongUrlValid)
@@ -37,12 +38,13 @@ namespace UrlShortener.Services
                 url.ExpirationDate = UnixTimeToDateTime(expireDate.Value);
             }
 
-            this.CreateUrl(url);
+            await this.urlRepository.Create(url);
+            await this.urlRepository.SaveChangesAsync();
             return url;
         }
 
-        public Url GetUrlByShortUrl(string shortUrl) =>
-            this.AllUrls().FirstOrDefault(x => x.ShortUrl == shortUrl);
+        public async Task<Url> GetUrlByShortUrl(string shortUrl) =>
+            await this.urlRepository.GetByShortUrl(shortUrl);
 
         public bool HasUrlExpired(Url url)
         {
@@ -56,22 +58,13 @@ namespace UrlShortener.Services
 
         #region Helper Methods
 
-        private IQueryable<Url> AllUrls() =>
-            this.db.Urls;
-
-        private void CreateUrl(Url url)
-        {
-            this.db.Urls.Add(url);
-            this.db.SaveChanges();
-        }
-
         private string GenerateShortUrl()
         {
             while (true)
             {
                 var url = Guid.NewGuid().ToString().Substring(0, 8);
 
-                var exists = this.AllUrls().Any(u => u.ShortUrl == url);
+                var exists = this.urlRepository.GetAll().Any(u => u.ShortUrl == url);
                 if (!exists)
                 {
                     return url;

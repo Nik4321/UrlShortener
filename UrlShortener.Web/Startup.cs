@@ -1,22 +1,7 @@
-﻿using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
-using AutoMapper;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.IdentityModel.Tokens;
-using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
-using Swashbuckle.AspNetCore.Swagger;
-using UrlShortener.Data;
-using UrlShortener.Data.Models;
-using UrlShortener.Infrastructure.Settings;
-using UrlShortener.Services;
 using UrlShortener.Web.Extensions;
 
 namespace UrlShortener.Web

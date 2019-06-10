@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using NUnit.Framework;
 using UrlShortener.Data;
 
 namespace UrlShortener.UnitTests
@@ -8,8 +7,7 @@ namespace UrlShortener.UnitTests
     {
         protected UrlShortenerDbContext db;
 
-        [SetUp]
-        public virtual void SetUp()
+        public void BaseSetUp()
         {
             this.db = SetUpDbContext();
         }

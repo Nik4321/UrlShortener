@@ -1,6 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
+using System.Threading;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using UrlShortener.Data.Models;
@@ -20,6 +22,18 @@ namespace UrlShortener.Data
             return base.SaveChanges();
         }
 
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default(CancellationToken))
+        {
+            this.ApplyAuditRules();
+            return await base.SaveChangesAsync(cancellationToken);
+        }
+
+        public override Task<int> SaveChangesAsync(bool acceptAllChangesOnSuccess, CancellationToken cancellationToken = default(CancellationToken))
+        {
+            this.ApplyAuditRules();
+            return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
+        }
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseLazyLoadingProxies();
@@ -37,7 +51,7 @@ namespace UrlShortener.Data
             builder.Entity<IdentityUserToken<int>>().ToTable("UserTokens");
             builder.Entity<IdentityRoleClaim<int>>().ToTable("RoleClaims");
         }
-
+        
         private void ApplyAuditRules()
         {
             foreach (var entry in
@@ -47,13 +61,14 @@ namespace UrlShortener.Data
                         e.Entity is IAudit && ((e.State == EntityState.Added) || (e.State == EntityState.Modified))))
             {
                 var entity = (IAudit)entry.Entity;
+                var dateUtcNow = DateTime.UtcNow;
                 if (entry.State == EntityState.Added && entity.CreatedOn == default(DateTime))
                 {
-                    entity.CreatedOn = DateTime.UtcNow;
+                    entity.CreatedOn = dateUtcNow;
                 }
                 else
                 {
-                    entity.ModifiedOn = DateTime.UtcNow;
+                    entity.ModifiedOn = dateUtcNow;
                 }
             }
         }

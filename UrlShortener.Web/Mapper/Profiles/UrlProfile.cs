@@ -1,8 +1,8 @@
-﻿using System.Security.Policy;
-using AutoMapper;
+﻿using AutoMapper;
+using UrlShortener.Data.Models;
 using UrlShortener.Models.Url;
 
-namespace UrlShortener.Infrastructure.Mapper.Profiles
+namespace UrlShortener.Web.Mapper.Profiles
 {
     public class UrlProfile : Profile
     {

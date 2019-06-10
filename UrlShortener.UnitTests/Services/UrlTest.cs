@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using NUnit.Framework;
 using FluentAssertions;
 using Moq;
@@ -7,6 +8,7 @@ using UrlShortener.Data;
 using UrlShortener.Data.Models;
 using UrlShortener.Infrastructure.Constants;
 using UrlShortener.Infrastructure.Exceptions;
+using UrlShortener.Repositories;
 using UrlShortener.Services;
 
 namespace UrlShortener.UnitTests.Services
@@ -16,13 +18,15 @@ namespace UrlShortener.UnitTests.Services
     {
         private const string TestLongUrl = "https://google.com/";
 
-        private UrlService urlService;
+        private Mock<UrlRepository> urlRepository;
+        private IUrlService urlService;
 
         [SetUp]
-        public override void SetUp()
+        public void SetUp()
         {
-            base.SetUp();
-            this.urlService = new UrlService(this.db);
+            base.BaseSetUp();
+            this.urlRepository = new Mock<UrlRepository>(this.db);
+            this.urlService = new UrlService(this.urlRepository.Object);
             AddFakeUrlsToDb(this.db);
         }
 
@@ -35,20 +39,20 @@ namespace UrlShortener.UnitTests.Services
         #region ShortenUrlTests
 
         [Test]
-        public void ShortenUrl_WhenCalledWithValidUrl_ReturnsObjectOfTypeUrl()
+        public async Task ShortenUrl_WhenCalledWithValidUrl_ReturnsObjectOfTypeUrl()
         {
             // Act
-            var result = this.urlService.ShortenUrl(TestLongUrl);
+            var result = await this.urlService.ShortenUrl(TestLongUrl);
 
             // Assert
             result.Should().BeOfType<Url>();
         }
 
         [Test]
-        public void ShortenUrl_WhenCalledWithValidUrl_ReturnsCorrectUrlObject()
+        public async Task ShortenUrl_WhenCalledWithValidUrl_ReturnsCorrectUrlObject()
         {
             // Act
-            var result = this.urlService.ShortenUrl(TestLongUrl);
+            var result = await this.urlService.ShortenUrl(TestLongUrl);
 
             // Assert
             result.Should()
@@ -59,7 +63,7 @@ namespace UrlShortener.UnitTests.Services
         public void ShortenUrl_WhenCalledWithInvalidUrl_ThrowsInvalidUrlException()
         {
             // Act
-            var result = this.urlService.Invoking(x => x.ShortenUrl(It.IsAny<string>()));
+            var result = this.urlService.Invoking(x => x.ShortenUrl(It.IsAny<string>()).GetAwaiter().GetResult());
 
             // Assert
             result.Should()
@@ -72,20 +76,20 @@ namespace UrlShortener.UnitTests.Services
         #region GetUrlByShortUrlTests
 
         [Test]
-        public void GetUrlByShortUrl_WhenCalledWithExistingEntity_ReturnsCorrectType()
+        public async Task GetUrlByShortUrl_WhenCalledWithExistingEntity_ReturnsCorrectType()
         {
             // Act
-            var result = this.urlService.GetUrlByShortUrl("197dec01");
+            var result = await this.urlService.GetUrlByShortUrl("197dec01");
 
             // Assert
             result.Should().NotBeNull().And.BeOfType<Url>();
         }
 
         [Test]
-        public void GetUrlByShortUrl_WhenCalledWithNonExistingEntity_ReturnsNull()
+        public async Task GetUrlByShortUrl_WhenCalledWithNonExistingEntity_ReturnsNull()
         {
             // Act
-            var result = this.urlService.GetUrlByShortUrl(It.IsAny<string>());
+            var result = await this.urlService.GetUrlByShortUrl(It.IsAny<string>());
 
             // Assert
             result.Should().BeNull();
