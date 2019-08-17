@@ -28,6 +28,7 @@ namespace UrlShortener.Web.Extensions
             RegisterRepositories(services);
             RegisterAutoMapper(services);
             RegisterSwagger(services);
+            RegisterCors(services);
             RegisterMvc(services);
             RegisterHealthCheck(services);
             RegisterIdentity(services, configuration);
@@ -65,7 +66,24 @@ namespace UrlShortener.Web.Extensions
 
         private static void RegisterSwagger(IServiceCollection services)
         {
-            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Info {Title = "Url Shortener API", Version = "v1"}); });
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Info { Title = "Url Shortener API", Version = "v1" }); });
+        }
+
+        private static void RegisterCors(IServiceCollection services)
+        {
+            services.AddCors(options =>
+            {
+                options.AddPolicy(
+                    "AllowAll",
+                    builder =>
+                    {
+                        builder
+                        .AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader()
+                        .AllowCredentials();
+                    });
+            });
         }
 
         private static void RegisterMvc(IServiceCollection services)
