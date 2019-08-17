@@ -40,7 +40,7 @@ namespace UrlShortener.Web.Controllers
         [HttpPost("/")]
         [ProducesDefaultResponseType]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> ShortenUrl([FromQuery] CreateUrl model)
+        public async Task<IActionResult> ShortenUrl([FromBody] CreateUrl model)
         {
             var result = await this.urlService.ShortenUrl(model.LongUrl, model.ExpireDate);
             var response = this.mapper.Map<ResponseUrl>(result);
