@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using UrlShortener.Data;
 
-namespace UrlShortener.UnitTests
+namespace UrlShortener.UnitTests.Base
 {
     public abstract class BaseTest
     {

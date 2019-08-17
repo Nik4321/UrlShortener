@@ -10,6 +10,7 @@ using UrlShortener.Infrastructure.Constants;
 using UrlShortener.Infrastructure.Exceptions;
 using UrlShortener.Repositories;
 using UrlShortener.Services;
+using UrlShortener.UnitTests.Base;
 
 namespace UrlShortener.UnitTests.Services
 {
@@ -24,7 +25,7 @@ namespace UrlShortener.UnitTests.Services
         [SetUp]
         public void SetUp()
         {
-            base.BaseSetUp();
+            this.BaseSetUp();
             this.urlRepository = new Mock<UrlRepository>(this.db);
             this.urlService = new UrlService(this.urlRepository.Object);
             AddFakeUrlsToDb(this.db);
