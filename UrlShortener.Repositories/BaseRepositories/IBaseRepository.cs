@@ -9,12 +9,10 @@ namespace UrlShortener.Repositories.BaseRepositories
 
         Task<TEntity> GetById(TKey id);
 
-        Task Create(TEntity entity);
+        Task<int> Create(TEntity entity);
 
-        void Update(TEntity entity);
+        Task<int> Update(TEntity entity);
 
-        Task Delete(TKey id);
-
-        Task SaveChangesAsync();
+        Task<int> Delete(TKey id);
     }
 }

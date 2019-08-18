@@ -26,25 +26,27 @@ namespace UrlShortener.Repositories.BaseRepositories
                 .FirstOrDefaultAsync(x => x.Id.Equals(id));
         }
 
-        public async Task Create(TEntity entity)
+        public async Task<int> Create(TEntity entity)
         {
             await this.db.Set<TEntity>().AddAsync(entity);
+            return await this.db.SaveChangesAsync();
         }
 
-        public void Update(TEntity entity)
+        public async Task<int> Update(TEntity entity)
         {
             this.db.Set<TEntity>().Update(entity);
+            return await this.db.SaveChangesAsync();
         }
 
-        public async Task Delete(TKey id)
+        public async Task<int> Delete(TKey id)
         {
             var entity = await this.GetById(id);
             if (entity != null)
             {
                 this.db.Set<TEntity>().Remove(entity);
             }
-        }
 
-        public async Task SaveChangesAsync() => await this.db.SaveChangesAsync();
+           return await this.db.SaveChangesAsync();
+        }
     }
 }

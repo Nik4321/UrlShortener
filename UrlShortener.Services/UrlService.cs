@@ -39,7 +39,6 @@ namespace UrlShortener.Services
             }
 
             await this.urlRepository.Create(url);
-            await this.urlRepository.SaveChangesAsync();
             return url;
         }
 
