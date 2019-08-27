@@ -6,18 +6,18 @@ import { Observable } from 'rxjs';
 import { LongUrl } from '../models/LongUrl';
 
 @Injectable({
-  providedIn: 'root'
+	providedIn: 'root'
 })
 export class UrlService {
-  private baseUrl: string;
+	private baseUrl: string;
 
-  constructor(
-    private http: HttpClient
-  ) {
-    this.baseUrl = env.apiUrl;
-  }
+	constructor(
+		private http: HttpClient
+	) {
+		this.baseUrl = env.apiUrl;
+	}
 
-  shortenUrl(url: LongUrl): Observable<object> {
-    return this.http.post(this.baseUrl, url);
-  }
+	shortenUrl(url: LongUrl): Observable<object> {
+		return this.http.post(this.baseUrl, url);
+	}
 }
