@@ -32,6 +32,7 @@ namespace UrlShortener.Web
                 {
                     var logger = services.GetService<ILogger<Program>>();
                     logger.LogError(ex, "An error occurred seeding the DB.");
+                    return;
                 }
             }
 
