@@ -3,7 +3,7 @@ import { HttpClient } from '@angular/common/http';
 
 import { environment as env } from './../../environments/environment';
 import { Observable } from 'rxjs';
-import { LongUrl } from '../models/LongUrl';
+import { LongUrlModel } from '../models/input/long-url.model';
 
 @Injectable({
 	providedIn: 'root'
@@ -17,7 +17,7 @@ export class UrlService {
 		this.baseUrl = env.apiUrl;
 	}
 
-	shortenUrl(url: LongUrl): Observable<object> {
+	public shortenUrl(url: LongUrlModel): Observable<object> {
 		return this.http.post(this.baseUrl, url);
 	}
 }
