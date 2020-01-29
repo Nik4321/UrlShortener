@@ -46,7 +46,7 @@ namespace UrlShortener.Repositories.BaseRepositories
                 this.db.Set<TEntity>().Remove(entity);
             }
 
-           return await this.db.SaveChangesAsync();
+            return await this.db.SaveChangesAsync();
         }
     }
 }
