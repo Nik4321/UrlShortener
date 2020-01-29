@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using UrlShortener.Web.Extensions;
+using Microsoft.Extensions.Hosting;
 
 namespace UrlShortener.Web
 {
@@ -20,7 +21,7 @@ namespace UrlShortener.Web
             services.RegisterApplicationServices(Configuration);
         }
 
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
+        public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             if (env.IsDevelopment())
             {
@@ -32,6 +33,7 @@ namespace UrlShortener.Web
                 app.UseHsts();
             }
 
+            app.UseRouting();
             app.UseCors("AllowAll");
 
             app.UseHealthChecks("/health");
@@ -43,7 +45,12 @@ namespace UrlShortener.Web
             });
 
             app.UseAuthentication();
-            app.UseMvc();
+            app.UseAuthorization();
+
+            app.UseEndpoints(endpoints =>
+            {
+                endpoints.MapControllers();
+            });
         }
     }
 }

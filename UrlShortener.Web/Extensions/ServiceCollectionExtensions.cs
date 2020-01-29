@@ -4,13 +4,12 @@ using System.Text;
 using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
-using Swashbuckle.AspNetCore.Swagger;
 using UrlShortener.Data;
 using UrlShortener.Data.Models;
 using UrlShortener.Infrastructure.Settings;
@@ -29,9 +28,9 @@ namespace UrlShortener.Web.Extensions
             RegisterAutoMapper(services);
             RegisterSwagger(services);
             RegisterCors(services);
-            RegisterMvc(services);
             RegisterHealthCheck(services);
             RegisterIdentity(services, configuration);
+            RegisterAuthorization(services);
         }
 
         private static void RegisterDbContext(IServiceCollection services, IConfiguration configuration)
@@ -66,7 +65,9 @@ namespace UrlShortener.Web.Extensions
 
         private static void RegisterSwagger(IServiceCollection services)
         {
-            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new Info { Title = "Url Shortener API", Version = "v1" }); });
+            services.AddSwaggerGen(c => { c.SwaggerDoc("v1", new OpenApiInfo { Title = "Url Shortener API", Version = "v1" }); });
+            // Adding this to make swagger gen work.
+            services.AddMvcCore().AddApiExplorer();
         }
 
         private static void RegisterCors(IServiceCollection services)
@@ -80,16 +81,9 @@ namespace UrlShortener.Web.Extensions
                         builder
                         .AllowAnyOrigin()
                         .AllowAnyMethod()
-                        .AllowAnyHeader()
-                        .AllowCredentials();
+                        .AllowAnyHeader();
                     });
             });
-        }
-
-        private static void RegisterMvc(IServiceCollection services)
-        {
-            services.AddMvc()
-                .SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
         }
 
         private static void RegisterIdentity(IServiceCollection services, IConfiguration configuration)
@@ -122,6 +116,11 @@ namespace UrlShortener.Web.Extensions
                         ClockSkew = TimeSpan.Zero
                     };
                 });
+        }
+
+        private static void RegisterAuthorization(IServiceCollection services)
+        {
+            services.AddAuthorization();
         }
     }
 }
