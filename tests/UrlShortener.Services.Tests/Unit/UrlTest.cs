@@ -9,10 +9,9 @@ using UrlShortener.Data.Models;
 using UrlShortener.Infrastructure.Constants;
 using UrlShortener.Infrastructure.Exceptions;
 using UrlShortener.Repositories;
-using UrlShortener.Services;
-using UrlShortener.UnitTests.Base;
+using UrlShortener.Services.Tests.Base;
 
-namespace UrlShortener.UnitTests.Services
+namespace UrlShortener.Services.Tests.Unit
 {
     [TestFixture]
     public class UrlTest : BaseTest
