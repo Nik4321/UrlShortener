@@ -1,9 +1,10 @@
 language: csharp
 solution: UrlShortener.sln
+mono: none
 dotnet: 3.1
 install:
-  - nuget restore UrlShortener.sln
-  - nuget install NUnit.Console -Version 3.11.1 -OutputDirectory testrunner
+- dotnet restore
+
 script:
-  - msbuild /p:Configuration=Release UrlShortener.sln
-  - mono ./testrunner/NUnit.ConsoleRunner.3.11.1/tools/nunit3-console.exe ./tests/UrlShortener.Services.Tests/bin/Release/netcoreapp3.1/UrlShortener.Services.Tests.dll
+ - dotnet build
+ - dotnet test tests/UrlShortener.Services.Tests/UrlShortener.Services.Tests.csproj
