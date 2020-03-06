@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using NUnit.Framework;
 using FluentAssertions;
 using Moq;
 using UrlShortener.Data;
@@ -10,19 +9,19 @@ using UrlShortener.Infrastructure.Constants;
 using UrlShortener.Infrastructure.Exceptions;
 using UrlShortener.Repositories;
 using UrlShortener.Services.Tests.Base;
+using Xunit;
 
 namespace UrlShortener.Services.Tests.Unit
 {
-    [TestFixture]
-    public class UrlTest : BaseTest
+    public class UrlTest : BaseTest, IDisposable
     {
         private const string TestLongUrl = "https://google.com/";
 
         private Mock<UrlRepository> urlRepository;
         private IUrlService urlService;
 
-        [SetUp]
-        public void SetUp()
+
+        public UrlTest()
         {
             this.BaseSetUp();
             this.urlRepository = new Mock<UrlRepository>(this.db);
@@ -30,15 +29,14 @@ namespace UrlShortener.Services.Tests.Unit
             AddFakeUrlsToDb(this.db);
         }
 
-        [TearDown]
-        public void TearDown()
+        public void Dispose()
         {
             this.db.Database.EnsureDeleted();
         }
 
         #region ShortenUrlTests
 
-        [Test]
+        [Fact]
         public async Task ShortenUrl_WhenCalledWithValidUrl_ReturnsObjectOfTypeUrl()
         {
             // Act
@@ -48,7 +46,7 @@ namespace UrlShortener.Services.Tests.Unit
             result.Should().BeOfType<Url>();
         }
 
-        [Test]
+        [Fact]
         public async Task ShortenUrl_WhenCalledWithValidUrl_ReturnsCorrectUrlObject()
         {
             // Act
@@ -59,7 +57,7 @@ namespace UrlShortener.Services.Tests.Unit
                 .Match<Url>(x => x.LongUrl == TestLongUrl);
         }
 
-        [Test]
+        [Fact]
         public void ShortenUrl_WhenCalledWithInvalidUrl_ThrowsInvalidUrlException()
         {
             // Act
@@ -75,7 +73,7 @@ namespace UrlShortener.Services.Tests.Unit
 
         #region GetUrlByShortUrlTests
 
-        [Test]
+        [Fact]
         public async Task GetUrlByShortUrl_WhenCalledWithExistingEntity_ReturnsCorrectType()
         {
             // Act
@@ -85,7 +83,7 @@ namespace UrlShortener.Services.Tests.Unit
             result.Should().NotBeNull().And.BeOfType<Url>();
         }
 
-        [Test]
+        [Fact]
         public async Task GetUrlByShortUrl_WhenCalledWithNonExistingEntity_ReturnsNull()
         {
             // Act
@@ -99,9 +97,9 @@ namespace UrlShortener.Services.Tests.Unit
 
         #region  HasUrlExpiredTests
 
-        [Test]
-        [TestCase(5, false)]
-        [TestCase(-5, true)]
+        [Theory]
+        [InlineData(5, false)]
+        [InlineData(-5, true)]
         public void HasUrlExpired_WithExpirationDate_ReturnsCorrectBoolean(int hoursToAddToExpiration, bool expectedResult)
         {
             // Arrange
@@ -119,7 +117,7 @@ namespace UrlShortener.Services.Tests.Unit
             result.Should().Be(expectedResult);
         }
 
-        [Test]
+        [Fact]
         public void HasUrlExpired_WithNoExpiredDate_ReturnsTrue()
         {
             // Arrange
