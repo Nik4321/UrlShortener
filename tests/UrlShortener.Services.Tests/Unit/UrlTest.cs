@@ -17,8 +17,8 @@ namespace UrlShortener.Services.Tests.Unit
     {
         private const string TestLongUrl = "https://google.com/";
 
-        private Mock<UrlRepository> urlRepository;
-        private IUrlService urlService;
+        private readonly Mock<UrlRepository> urlRepository;
+        private readonly IUrlService urlService;
 
 
         public UrlTest()
@@ -55,6 +55,20 @@ namespace UrlShortener.Services.Tests.Unit
             // Assert
             result.Should()
                 .Match<Url>(x => x.LongUrl == TestLongUrl);
+        }
+
+        [Fact]
+        public async Task ShortenUrl_WhenCalledWithValidUrlAndExpireDate_ReturnsUrlObjectWithExpireDate()
+        {
+            // Arrange
+            // 03/08/2020 @ 6:23pm - 1583691810
+            var expectedExpirationDate = DateTimeOffset.FromUnixTimeSeconds(1583691810).DateTime;
+
+            // Act
+            var result = await this.urlService.ShortenUrl(TestLongUrl, 1583691810);
+
+            // Assert
+            Assert.Equal(result.ExpirationDate, expectedExpirationDate);
         }
 
         [Fact]
