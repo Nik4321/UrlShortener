@@ -14,7 +14,7 @@ namespace UrlShortener.Data
     {
         public DbSet<Url> Urls { get; set; }
 
-        public UrlShortenerDbContext(DbContextOptions options) : base(options)  { }
+        public UrlShortenerDbContext(DbContextOptions options) : base(options) { }
 
         public override int SaveChanges()
         {
@@ -34,10 +34,7 @@ namespace UrlShortener.Data
             return base.SaveChangesAsync(acceptAllChangesOnSuccess, cancellationToken);
         }
 
-        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        {
-            optionsBuilder.UseLazyLoadingProxies();
-        }
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder) { }
 
         protected override void OnModelCreating(ModelBuilder builder)
         {
@@ -51,7 +48,7 @@ namespace UrlShortener.Data
             builder.Entity<IdentityUserToken<int>>().ToTable("UserTokens");
             builder.Entity<IdentityRoleClaim<int>>().ToTable("RoleClaims");
         }
-        
+
         private void ApplyAuditRules()
         {
             foreach (var entry in
