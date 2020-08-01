@@ -1,5 +1,5 @@
-﻿using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
+﻿
+using System.Threading.Tasks;
 using UrlShortener.Data;
 using UrlShortener.Data.Models;
 using UrlShortener.Repositories.BaseRepositories;
@@ -13,9 +13,9 @@ namespace UrlShortener.Repositories
         {
         }
 
-        public async Task<Url> GetByShortUrl(string shortUrl)
+        public Task<Url> GetByShortUrl(string shortUrl)
         {
-            return await this.GetAll().FirstOrDefaultAsync(x => x.ShortUrl == shortUrl);
+            return this.FindOneAsync(x => x.ShortUrl == shortUrl);
         }
     }
 }

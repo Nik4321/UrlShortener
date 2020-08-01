@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Threading.Tasks;
 using UrlShortener.Data.Models;
 using UrlShortener.Infrastructure.Constants;
@@ -26,7 +25,7 @@ namespace UrlShortener.Services
                 throw new InvalidUrlException(ExceptionMessagesConstants.InvalidUrlExceptionMessage);
             }
 
-            var shortUrl = this.GenerateShortUrl();
+            var shortUrl = await this.GenerateShortUrl();
             var url = new Url
             {
                 LongUrl = longUrl,
@@ -38,12 +37,12 @@ namespace UrlShortener.Services
                 url.ExpirationDate = UnixTimeToDateTime(expireDate.Value);
             }
 
-            await this.urlRepository.Create(url);
+            await this.urlRepository.AddAsync(url);
             return url;
         }
 
-        public async Task<Url> GetUrlByShortUrl(string shortUrl) =>
-            await this.urlRepository.GetByShortUrl(shortUrl);
+        public Task<Url> GetUrlByShortUrl(string shortUrl) =>
+            this.urlRepository.GetByShortUrl(shortUrl);
 
         public bool HasUrlExpired(Url url)
         {
@@ -57,13 +56,13 @@ namespace UrlShortener.Services
 
         #region Helper Methods
 
-        private string GenerateShortUrl()
+        private async Task<string> GenerateShortUrl()
         {
             while (true)
             {
                 var url = Guid.NewGuid().ToString().Substring(0, 8);
 
-                var exists = this.urlRepository.GetAll().Any(u => u.ShortUrl == url);
+                var exists = await this.urlRepository.ExistsAsync(x => x.ShortUrl == url);
                 if (!exists)
                 {
                     return url;
