@@ -23,7 +23,7 @@ namespace UrlShortener.Services.Tests.Unit
 
         public UrlTest()
         {
-            this.BaseSetUp();
+            this.BaseSetup();
             this.urlRepository = new Mock<UrlRepository>(this.db);
             this.urlService = new UrlService(this.urlRepository.Object);
             AddFakeUrlsToDb(this.db);

@@ -7,12 +7,12 @@ namespace UrlShortener.Services.Tests.Base
     {
         protected UrlShortenerDbContext db;
 
-        public void BaseSetUp()
+        public void BaseSetup()
         {
-            this.db = SetUpDbContext();
+            this.db = InstantiateDbContext();
         }
 
-        private static UrlShortenerDbContext SetUpDbContext()
+        private static UrlShortenerDbContext InstantiateDbContext()
         {
             var dbOptions = new DbContextOptionsBuilder<UrlShortenerDbContext>()
                 .UseInMemoryDatabase("TestDb").Options;
