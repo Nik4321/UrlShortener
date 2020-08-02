@@ -1,10 +1,11 @@
-﻿using System;
-using Microsoft.AspNetCore;
+﻿using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Diagnostics.CodeAnalysis;
 using UrlShortener.Data;
 using UrlShortener.Data.Extensions;
 using UrlShortener.Data.Models;
@@ -13,6 +14,7 @@ using UrlShortener.Data.Models;
 
 namespace UrlShortener.Web
 {
+    [ExcludeFromCodeCoverage]
     public class Program
     {
         public static void Main(string[] args)

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace UrlShortener.Models.Url
 {
+    [ExcludeFromCodeCoverage]
     public class ResponseUrl
     {
         public int Id { get; set; }

@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 
 namespace UrlShortener.Models.Authorize
 {
+    [ExcludeFromCodeCoverage]
     public class TokenResponse
     {
         public string UserEmail { get; set; }

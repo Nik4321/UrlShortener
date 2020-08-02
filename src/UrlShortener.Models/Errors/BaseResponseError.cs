@@ -1,7 +1,9 @@
 ﻿using Newtonsoft.Json;
+using System.Diagnostics.CodeAnalysis;
 
 namespace UrlShortener.Models.Errors
 {
+    [ExcludeFromCodeCoverage]
     public class BaseResponseError
     {
         public BaseResponseError(int statusCode, string statusDescription)

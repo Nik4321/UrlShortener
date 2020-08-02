@@ -1,5 +1,8 @@
-﻿namespace UrlShortener.Infrastructure.Settings
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace UrlShortener.Infrastructure.Settings
 {
+    [ExcludeFromCodeCoverage]
     public class JwtSettings
     {
         public string Authority { get; set; }
