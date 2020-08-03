@@ -4,9 +4,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using System.Diagnostics.CodeAnalysis;
-using UrlShortener.Web.Extensions;
+using UrlShortener.API.Extensions;
 
-namespace UrlShortener.Web
+namespace UrlShortener.API
 {
     [ExcludeFromCodeCoverage]
     public class Startup

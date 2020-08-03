@@ -12,7 +12,7 @@ using UrlShortener.Data.Models;
 
 [assembly: ApiConventionType(typeof(DefaultApiConventions))]
 
-namespace UrlShortener.Web
+namespace UrlShortener.API
 {
     [ExcludeFromCodeCoverage]
     public class Program

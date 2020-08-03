@@ -1,12 +1,12 @@
-﻿using System.Threading.Tasks;
-using AutoMapper;
+﻿using AutoMapper;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading.Tasks;
 using UrlShortener.Models.Errors;
 using UrlShortener.Models.Url;
 using UrlShortener.Services;
-using Microsoft.AspNetCore.Http;
 
-namespace UrlShortener.Web.Controllers
+namespace UrlShortener.API.Controllers
 {
     [ApiController]
     public class UrlController : Controller

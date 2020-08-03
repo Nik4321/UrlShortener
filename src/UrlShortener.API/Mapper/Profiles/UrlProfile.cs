@@ -2,7 +2,7 @@
 using UrlShortener.Data.Models;
 using UrlShortener.Models.Url;
 
-namespace UrlShortener.Web.Mapper.Profiles
+namespace UrlShortener.API.Mapper.Profiles
 {
     public class UrlProfile : Profile
     {

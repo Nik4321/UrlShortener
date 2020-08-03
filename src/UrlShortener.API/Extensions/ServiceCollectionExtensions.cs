@@ -1,7 +1,4 @@
-﻿using System;
-using System.IdentityModel.Tokens.Jwt;
-using System.Text;
-using AutoMapper;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
@@ -10,13 +7,16 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Pomelo.EntityFrameworkCore.MySql.Infrastructure;
+using System;
+using System.IdentityModel.Tokens.Jwt;
+using System.Text;
 using UrlShortener.Data;
 using UrlShortener.Data.Models;
 using UrlShortener.Infrastructure.Settings;
 using UrlShortener.Repositories;
 using UrlShortener.Services;
 
-namespace UrlShortener.Web.Extensions
+namespace UrlShortener.API.Extensions
 {
     public static class ServiceCollectionExtensions
     {

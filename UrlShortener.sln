@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.28922.388
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UrlShortener.Web", "src\UrlShortener.Web\UrlShortener.Web.csproj", "{C514FA48-7BB9-4EB3-B26E-EF3FAE25317C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UrlShortener.API", "src\UrlShortener.API\UrlShortener.API.csproj", "{C514FA48-7BB9-4EB3-B26E-EF3FAE25317C}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "UrlShortener.Services", "src\UrlShortener.Services\UrlShortener.Services.csproj", "{BEAD81D5-65F9-4B2F-9F17-DEF1D28C2A2C}"
 EndProject
