@@ -10,8 +10,8 @@ using Microsoft.IdentityModel.Tokens;
 using UrlShortener.Data;
 using UrlShortener.Data.Models;
 using UrlShortener.Infrastructure.Exceptions;
+using UrlShortener.Infrastructure.Models.Authorize;
 using UrlShortener.Infrastructure.Settings;
-using UrlShortener.Models.Authorize;
 
 namespace UrlShortener.Services
 {

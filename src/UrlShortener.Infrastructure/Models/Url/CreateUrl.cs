@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
-namespace UrlShortener.Models.Url
+namespace UrlShortener.Infrastructure.Models.Url
 {
     [ExcludeFromCodeCoverage]
     public class CreateUrl

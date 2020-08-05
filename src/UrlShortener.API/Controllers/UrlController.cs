@@ -2,8 +2,8 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
-using UrlShortener.Models.Errors;
-using UrlShortener.Models.Url;
+using UrlShortener.Infrastructure.Models.Errors;
+using UrlShortener.Infrastructure.Models.Url;
 using UrlShortener.Services;
 
 namespace UrlShortener.API.Controllers

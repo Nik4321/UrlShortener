@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace UrlShortener.Models.Authorize
+namespace UrlShortener.Infrastructure.Models.Authorize
 {
     [ExcludeFromCodeCoverage]
     public class TokenResponse
