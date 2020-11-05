@@ -18,8 +18,16 @@ using UrlShortener.Services;
 
 namespace UrlShortener.API.Extensions
 {
+    /// <summary>
+    /// Extension methods for <see cref="IServiceCollection"/>
+    /// </summary>
     public static class ServiceCollectionExtensions
     {
+        /// <summary>
+        /// Register
+        /// </summary>
+        /// <param name="services"></param>
+        /// <param name="configuration"></param>
         public static void RegisterApplicationServices(this IServiceCollection services, IConfiguration configuration)
         {
             RegisterDbContext(services, configuration);
@@ -33,6 +41,12 @@ namespace UrlShortener.API.Extensions
             RegisterAuthorization(services);
         }
 
+
+        /// <summary>
+        /// Registers the database context
+        /// </summary>
+        /// <param name="services">The services collection</param>
+        /// <param name="configuration">Instance</param>
         private static void RegisterDbContext(IServiceCollection services, IConfiguration configuration)
         {
             services

@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using System;
 using System.Threading.Tasks;
 using UrlShortener.Infrastructure.Models.Errors;
 using UrlShortener.Infrastructure.Models.Url;
@@ -8,18 +9,31 @@ using UrlShortener.Services;
 
 namespace UrlShortener.API.Controllers
 {
+    /// <summary>
+    /// Controller for Urls
+    /// </summary>
     [ApiController]
     public class UrlController : Controller
     {
         private readonly IMapper mapper;
         private readonly IUrlService urlService;
 
+        /// <summary>
+        /// Constructs an instance of <see cref="UrlController"/>
+        /// </summary>
+        /// <param name="mapper"></param>
+        /// <param name="urlService"></param>
         public UrlController(IMapper mapper, IUrlService urlService)
         {
-            this.mapper = mapper;
-            this.urlService = urlService;
+            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
+            this.urlService = urlService ?? throw new ArgumentNullException(nameof(urlService));
         }
 
+        /// <summary>
+        /// Redirects to long url using short url
+        /// </summary>
+        /// <param name="shortUrl">Short url that will be used to find long url</param>
+        /// <returns></returns>
         [HttpGet("/{shortUrl}")]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesDefaultResponseType]
@@ -37,6 +51,11 @@ namespace UrlShortener.API.Controllers
             return this.Redirect(url.LongUrl);
         }
 
+        /// <summary>
+        /// Creates a shorten url
+        /// </summary>
+        /// <param name="model">CreateUrl model</param>
+        /// <returns></returns>
         [HttpPost("/")]
         [ProducesDefaultResponseType]
         [ProducesResponseType(StatusCodes.Status200OK)]

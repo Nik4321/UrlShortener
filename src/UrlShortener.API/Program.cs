@@ -14,9 +14,16 @@ using UrlShortener.Data.Models;
 
 namespace UrlShortener.API
 {
+    /// <summary>
+    /// The main enty point
+    /// </summary>
     [ExcludeFromCodeCoverage]
     public class Program
     {
+        /// <summary>
+        /// Main entry point for the web service
+        /// </summary>
+        /// <param name="args"></param>
         public static void Main(string[] args)
         {
             var host = CreateWebHostBuilder(args).Build();
@@ -41,6 +48,11 @@ namespace UrlShortener.API
             host.Run();
         }
 
+        /// <summary>
+        /// Creates the web host builder
+        /// </summary>
+        /// <param name="args">the main args</param>
+        /// <returns>An instance of <see cref="IWebHostBuilder"/></returns>
         public static IWebHostBuilder CreateWebHostBuilder(string[] args) =>
             WebHost.CreateDefaultBuilder(args)
                 .UseStartup<Startup>();
