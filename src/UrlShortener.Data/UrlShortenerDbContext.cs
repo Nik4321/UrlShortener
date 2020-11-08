@@ -1,12 +1,12 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using UrlShortener.Data.Models;
-using UrlShortener.Data.Models.Interfaces;
+using UrlShortener.Data.Models.Entities;
+using UrlShortener.Data.Models.Entities.Interfaces;
 
 namespace UrlShortener.Data
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace UrlShortener.Data.Models.Interfaces
+namespace UrlShortener.Data.Models.Entities.Interfaces
 {
     public interface IAudit
     {

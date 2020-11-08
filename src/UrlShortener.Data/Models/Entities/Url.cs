@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace UrlShortener.Data.Models
+namespace UrlShortener.Data.Models.Entities
 {
     [ExcludeFromCodeCoverage]
     public class Url : BaseEntity<int>

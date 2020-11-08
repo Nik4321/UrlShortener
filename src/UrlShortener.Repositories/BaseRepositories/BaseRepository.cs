@@ -4,8 +4,7 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using UrlShortener.Data;
-using UrlShortener.Data.Models;
-using UrlShortener.Repositories.Enums;
+using UrlShortener.Data.Models.Entities;
 using UrlShortener.Repositories.Results;
 
 namespace UrlShortener.Repositories.BaseRepositories

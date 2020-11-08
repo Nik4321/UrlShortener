@@ -8,7 +8,7 @@ using System;
 using System.Diagnostics.CodeAnalysis;
 using UrlShortener.Data;
 using UrlShortener.Data.Extensions;
-using UrlShortener.Data.Models;
+using UrlShortener.Data.Models.Entities;
 
 [assembly: ApiConventionType(typeof(DefaultApiConventions))]
 

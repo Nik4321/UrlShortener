@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using UrlShortener.Data.Models.Interfaces;
+using UrlShortener.Data.Models.Entities.Interfaces;
 
-namespace UrlShortener.Data.Models
+namespace UrlShortener.Data.Models.Entities
 {
     [ExcludeFromCodeCoverage]
     public class BaseEntity<TKey> : IAudit

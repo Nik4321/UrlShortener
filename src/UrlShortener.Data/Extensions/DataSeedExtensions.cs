@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.AspNetCore.Identity;
-using UrlShortener.Data.Models;
+using UrlShortener.Data.Models.Entities;
 using UrlShortener.Infrastructure.Constants;
 
 namespace UrlShortener.Data.Extensions

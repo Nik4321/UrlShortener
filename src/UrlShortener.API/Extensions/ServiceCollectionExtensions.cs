@@ -11,7 +11,7 @@ using System;
 using System.IdentityModel.Tokens.Jwt;
 using System.Text;
 using UrlShortener.Data;
-using UrlShortener.Data.Models;
+using UrlShortener.Data.Models.Entities;
 using UrlShortener.Infrastructure.Settings;
 using UrlShortener.Repositories;
 using UrlShortener.Services;

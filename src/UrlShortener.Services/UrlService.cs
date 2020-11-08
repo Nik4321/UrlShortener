@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
-using UrlShortener.Data.Models;
+using UrlShortener.Data.Models.Entities;
 using UrlShortener.Infrastructure.Constants;
 using UrlShortener.Infrastructure.Exceptions;
 using UrlShortener.Infrastructure.Extensions;

@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Moq;
 using UrlShortener.Data;
-using UrlShortener.Data.Models;
+using UrlShortener.Data.Models.Entities;
 using UrlShortener.Infrastructure.Constants;
 using UrlShortener.Infrastructure.Exceptions;
 using UrlShortener.Repositories;
