@@ -8,9 +8,9 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using UrlShortener.Data;
+using UrlShortener.Data.Models.Dtos.Authorize;
 using UrlShortener.Data.Models.Entities;
 using UrlShortener.Infrastructure.Exceptions;
-using UrlShortener.Infrastructure.Models.Authorize;
 using UrlShortener.Infrastructure.Settings;
 
 namespace UrlShortener.Services

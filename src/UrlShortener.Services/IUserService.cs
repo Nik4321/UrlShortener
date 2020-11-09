@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using UrlShortener.Infrastructure.Models.Authorize;
+using UrlShortener.Data.Models.Dtos.Authorize;
 
 namespace UrlShortener.Services
 {

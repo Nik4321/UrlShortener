@@ -1,7 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.Diagnostics.CodeAnalysis;
 
-namespace UrlShortener.Infrastructure.Models.Authorize
+namespace UrlShortener.Data.Models.Dtos.Authorize
 {
     [ExcludeFromCodeCoverage]
     public class CredentialsModel

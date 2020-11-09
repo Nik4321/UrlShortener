@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 
-namespace UrlShortener.Infrastructure.Models.Url
+namespace UrlShortener.Data.Models.Dtos.Url
 {
     [ExcludeFromCodeCoverage]
     public class ResponseUrl
