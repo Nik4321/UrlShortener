@@ -1,8 +1,8 @@
-﻿using System;
+﻿using FluentAssertions;
+using Moq;
+using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using FluentAssertions;
-using Moq;
 using UrlShortener.Data;
 using UrlShortener.Data.Models.Entities;
 using UrlShortener.Infrastructure.Constants;
@@ -13,15 +13,14 @@ using Xunit;
 
 namespace UrlShortener.Services.Tests.Unit
 {
-    public class UrlTest : BaseTest, IDisposable
+    public class UrlServiceTests : BaseTest, IDisposable
     {
         private const string TestLongUrl = "https://google.com/";
 
         private readonly Mock<UrlRepository> urlRepository;
         private readonly IUrlService urlService;
 
-
-        public UrlTest()
+        public UrlServiceTests()
         {
             this.BaseSetup();
             this.urlRepository = new Mock<UrlRepository>(this.db);
