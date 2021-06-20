@@ -41,9 +41,11 @@ namespace UrlShortener.Services
             return url;
         }
 
-        public Task<Url> GetUrlByShortUrl(string shortUrl) =>
-            this.urlRepository.GetByShortUrl(shortUrl);
-
+        public Task<Url> GetUrlByShortUrl(string shortUrl)
+        {
+            return this.urlRepository.GetByShortUrl(shortUrl);
+        }
+            
         public bool HasUrlExpired(Url url)
         {
             if (!url.ExpirationDate.HasValue)
