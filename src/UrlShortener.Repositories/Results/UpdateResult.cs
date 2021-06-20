@@ -13,7 +13,7 @@ namespace UrlShortener.Repositories.Results
         public static UpdateResult<T> Success => new UpdateResult<T>(UpdateResultStatus.Success);
 
         /// <summary>
-        /// Get a <see cref="UpdateResult<T>"/> with not found status
+        /// Get a <see cref="UpdateResult{T}"/> with not found status
         /// </summary>
         public static UpdateResult<T> NotFound => new UpdateResult<T>(UpdateResultStatus.NotFound);
 
@@ -35,7 +35,6 @@ namespace UrlShortener.Repositories.Results
             this.Status = UpdateResultStatus.Success;
             this.RelatedObject = relatedObject;
         }
-
 
         /// <summary>
         /// The status of the update result
