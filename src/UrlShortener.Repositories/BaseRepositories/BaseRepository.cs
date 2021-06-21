@@ -9,15 +9,21 @@ using UrlShortener.Repositories.Results;
 
 namespace UrlShortener.Repositories.BaseRepositories
 {
+    /// <inheritdoc/>
     public abstract class BaseRepository<TEntity, TKey> : IBaseRepository<TEntity, TKey> where TEntity : BaseEntity<TKey>
     {
         private readonly UrlShortenerDbContext db;
 
+        /// <summary>
+        /// Creates an instance of <see cref="BaseRepository{TEntity, TKey}"/>
+        /// </summary>
+        /// <param name="db">The DB context</param>
         public BaseRepository(UrlShortenerDbContext db)
         {
-            this.db = db;
+            this.db = db ?? throw new ArgumentNullException(nameof(db));
         }
 
+        /// <inheritdoc/>
         public Task<bool> ExistsAsync(Expression<Func<TEntity, bool>> filter)
         {
             if (filter == null)
@@ -28,19 +34,21 @@ namespace UrlShortener.Repositories.BaseRepositories
             return this.db.Set<TEntity>().AnyAsync(filter);
         }
 
+        /// <inheritdoc/>
         public Task<TEntity> FindOneAsync(Expression<Func<TEntity, bool>> filter)
         {
             if (filter == null)
             {
                 throw new ArgumentNullException(nameof(filter));
             }
-            
+
             return this.db.Set<TEntity>()
                 .Where(filter)
                 .AsNoTracking()
                 .FirstOrDefaultAsync();
         }
 
+        /// <inheritdoc/>
         public Task<IQueryable<TEntity>> GetListAsync(Expression<Func<TEntity, bool>> filter = null)
         {
             IQueryable<TEntity> entities = this.db.Set<TEntity>().AsQueryable();
@@ -48,6 +56,7 @@ namespace UrlShortener.Repositories.BaseRepositories
             return Task.FromResult(entities);
         }
 
+        /// <inheritdoc/>
         public async Task<TEntity> AddAsync(TEntity source, bool save = true)
         {
             if (source == null)
@@ -65,6 +74,7 @@ namespace UrlShortener.Repositories.BaseRepositories
             return entity.Entity;
         }
 
+        /// <inheritdoc/>
         public async Task<UpdateResult<TEntity>> UpdateAsync(TEntity entity, Expression<Func<TEntity, bool>> filter, bool save = true)
         {
             if (entity == null)
@@ -75,7 +85,7 @@ namespace UrlShortener.Repositories.BaseRepositories
             {
                 throw new ArgumentNullException(nameof(filter));
             }
-            
+
             var existingEntity = await this.FindOneAsync(filter);
             if (existingEntity == null)
             {
@@ -92,13 +102,14 @@ namespace UrlShortener.Repositories.BaseRepositories
             return new UpdateResult<TEntity>(existingEntity);
         }
 
+        /// <inheritdoc/>
         public async Task<RemoveResult> RemoveOneAsync(Expression<Func<TEntity, bool>> filter, bool save = true)
         {
             if (filter == null)
             {
                 throw new ArgumentNullException(nameof(filter));
             }
-            
+
             var entity = await this.FindOneAsync(filter);
             if (entity == null)
             {
@@ -106,7 +117,7 @@ namespace UrlShortener.Repositories.BaseRepositories
             }
 
             this.db.Remove(entity);
-            
+
             if (save)
             {
                 await this.SaveAsync();
@@ -115,9 +126,10 @@ namespace UrlShortener.Repositories.BaseRepositories
             return RemoveResult.Success;
         }
 
-        private Task<int> SaveAsync()
+        /// <inheritdoc/>
+        public async Task<int> SaveAsync()
         {
-            return this.db.SaveChangesAsync();
+            return await this.db.SaveChangesAsync();
         }
     }
 }
