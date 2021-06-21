@@ -2,12 +2,11 @@
 using System.Threading.Tasks;
 using UrlShortener.Data;
 using UrlShortener.Data.Models.Entities;
-using UrlShortener.Repositories.BaseRepositories;
 
 namespace UrlShortener.Repositories
 {
     /// <inheritdoc/>
-    public class UrlRepository : BaseRepository<Url, int>, IUrlRepository
+    public class UrlRepository : Repository<Url, int>, IUrlRepository
     {
         /// <summary>
         /// Creates an instance of <see cref="UrlRepository"/>

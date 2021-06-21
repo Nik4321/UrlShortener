@@ -1,13 +1,12 @@
 ﻿using System.Threading.Tasks;
 using UrlShortener.Data.Models.Entities;
-using UrlShortener.Repositories.BaseRepositories;
 
 namespace UrlShortener.Repositories
 {
     /// <summary>
     /// A repository for persisting <see cref="Url"/> objects.
     /// </summary>
-    public interface IUrlRepository : IBaseRepository<Url, int>
+    public interface IUrlRepository : IRepository<Url, int>
     {
         /// <summary>
         /// Finds the first <see cref="Url"/> that matches the <paramref name="shortUrl"/> 

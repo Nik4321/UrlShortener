@@ -7,18 +7,18 @@ using UrlShortener.Data;
 using UrlShortener.Data.Models.Entities;
 using UrlShortener.Repositories.Results;
 
-namespace UrlShortener.Repositories.BaseRepositories
+namespace UrlShortener.Repositories
 {
     /// <inheritdoc/>
-    public abstract class BaseRepository<TEntity, TKey> : IBaseRepository<TEntity, TKey> where TEntity : BaseEntity<TKey>
+    public abstract class Repository<TEntity, TKey> : IRepository<TEntity, TKey> where TEntity : BaseEntity<TKey>
     {
         private readonly UrlShortenerDbContext db;
 
         /// <summary>
-        /// Creates an instance of <see cref="BaseRepository{TEntity, TKey}"/>
+        /// Creates an instance of <see cref="Repository{TEntity, TKey}"/>
         /// </summary>
         /// <param name="db">The DB context</param>
-        public BaseRepository(UrlShortenerDbContext db)
+        public Repository(UrlShortenerDbContext db)
         {
             this.db = db ?? throw new ArgumentNullException(nameof(db));
         }

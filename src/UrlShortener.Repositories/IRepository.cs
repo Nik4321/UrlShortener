@@ -5,14 +5,14 @@ using System.Threading.Tasks;
 using UrlShortener.Data.Models.Entities;
 using UrlShortener.Repositories.Results;
 
-namespace UrlShortener.Repositories.BaseRepositories
+namespace UrlShortener.Repositories
 {
     /// <summary>
     /// A repository for performing common operations on the database
     /// </summary>
     /// <typeparam name="TEntity">The entity type</typeparam>
     /// <typeparam name="TKey">The entity primary key type</typeparam>
-    public interface IBaseRepository<TEntity, TKey> where TEntity : BaseEntity<TKey>
+    public interface IRepository<TEntity, TKey> where TEntity : BaseEntity<TKey>
     {
         /// <summary>
         /// Checks if a <typeparamref name="TEntity"/> is found using the <paramref name="filter"/>
