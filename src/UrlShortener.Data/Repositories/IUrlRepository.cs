@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using UrlShortener.Data.Models.Entities;
 
-namespace UrlShortener.Repositories
+namespace UrlShortener.Data.Repositories
 {
     /// <summary>
     /// A repository for persisting <see cref="Url"/> objects.

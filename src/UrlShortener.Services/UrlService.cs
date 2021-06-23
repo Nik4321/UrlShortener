@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
 using UrlShortener.Data.Models.Entities;
+using UrlShortener.Data.Repositories;
 using UrlShortener.Infrastructure.Constants;
 using UrlShortener.Infrastructure.Exceptions;
 using UrlShortener.Infrastructure.Extensions;
 using UrlShortener.Infrastructure.Helpers;
-using UrlShortener.Repositories;
 
 namespace UrlShortener.Services
 {

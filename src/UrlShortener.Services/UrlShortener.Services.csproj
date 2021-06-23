@@ -12,7 +12,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\UrlShortener.Repositories\UrlShortener.Repositories.csproj" />
+    <ProjectReference Include="..\UrlShortener.Data\UrlShortener.Data.csproj" />
   </ItemGroup>
 
 </Project>

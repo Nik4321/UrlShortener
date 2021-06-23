@@ -1,9 +1,8 @@
 ﻿using System;
 using System.Threading.Tasks;
-using UrlShortener.Data;
 using UrlShortener.Data.Models.Entities;
 
-namespace UrlShortener.Repositories
+namespace UrlShortener.Data.Repositories
 {
     /// <inheritdoc/>
     public class UrlRepository : Repository<Url, int>, IUrlRepository

@@ -3,11 +3,10 @@ using System;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
-using UrlShortener.Data;
 using UrlShortener.Data.Models.Entities;
-using UrlShortener.Repositories.Results;
+using UrlShortener.Data.Repositories.Results;
 
-namespace UrlShortener.Repositories
+namespace UrlShortener.Data.Repositories
 {
     /// <inheritdoc/>
     public abstract class Repository<TEntity, TKey> : IRepository<TEntity, TKey> where TEntity : BaseEntity<TKey>

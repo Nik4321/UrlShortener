@@ -3,9 +3,9 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 using UrlShortener.Data.Models.Entities;
-using UrlShortener.Repositories.Results;
+using UrlShortener.Data.Repositories.Results;
 
-namespace UrlShortener.Repositories
+namespace UrlShortener.Data.Repositories
 {
     /// <summary>
     /// A repository for performing common operations on the database
