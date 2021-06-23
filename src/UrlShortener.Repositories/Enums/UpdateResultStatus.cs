@@ -1,5 +1,8 @@
 ﻿namespace UrlShortener.Repositories.Enums
 {
+    /// <summary>
+    /// Update result status
+    /// </summary>
     public enum UpdateResultStatus
     {
         /// <summary>

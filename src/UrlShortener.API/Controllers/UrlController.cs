@@ -39,7 +39,7 @@ namespace UrlShortener.API.Controllers
         [ProducesDefaultResponseType]
         public async Task<IActionResult> Get(string shortUrl)
         {
-            var url = await this.urlService.GetUrlByShortUrl(shortUrl);
+            var url = await this.urlService.GetUrl(shortUrl);
             if (url == null) return this.GetUrlErrorResponse(400, "Not found", "Url not found");
 
             var hasUrlExpired = this.urlService.HasUrlExpired(url);

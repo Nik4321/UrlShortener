@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿#pragma warning disable CS1591
+using System.Threading.Tasks;
 using UrlShortener.Data.Models.Dtos.Authorize;
 
 namespace UrlShortener.Services

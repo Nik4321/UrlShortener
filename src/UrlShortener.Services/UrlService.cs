@@ -8,15 +8,21 @@ using UrlShortener.Repositories;
 
 namespace UrlShortener.Services
 {
+    /// <inheritdoc/>
     public class UrlService : IUrlService
     {
         private readonly IUrlRepository urlRepository;
 
+        /// <summary>
+        /// Creates an instance of <see cref="UrlService"/>
+        /// </summary>
+        /// <param name="urlRepository">The repository used for url persistance management</param>
         public UrlService(IUrlRepository urlRepository)
         {
-            this.urlRepository = urlRepository;
+            this.urlRepository = urlRepository ?? throw new ArgumentNullException(nameof(urlRepository));
         }
 
+        /// <inheritdoc/>
         public async Task<Url> ShortenUrl(string longUrl, long? expireDate = null)
         {
             var isLongUrlValid = longUrl.IsValidUrl();
@@ -41,11 +47,18 @@ namespace UrlShortener.Services
             return url;
         }
 
-        public Task<Url> GetUrlByShortUrl(string shortUrl)
+        /// <inheritdoc/>
+        public Task<Url> GetUrl(string shortUrl)
         {
+            if (string.IsNullOrWhiteSpace(shortUrl))
+            {
+                throw new ArgumentNullException(nameof(shortUrl));
+            }
+
             return this.urlRepository.GetByShortUrl(shortUrl);
         }
-            
+        
+        /// <inheritdoc/>
         public bool HasUrlExpired(Url url)
         {
             if (!url.ExpirationDate.HasValue)
@@ -58,6 +71,10 @@ namespace UrlShortener.Services
 
         #region Helper Methods
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
         private async Task<string> GenerateShortUrl()
         {
             while (true)
@@ -72,6 +89,11 @@ namespace UrlShortener.Services
             }
         }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="unixTimeStamp"></param>
+        /// <returns></returns>
         private static DateTime UnixTimeToDateTime(long unixTimeStamp)
         {
             var dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);

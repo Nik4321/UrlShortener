@@ -94,10 +94,10 @@ namespace UrlShortener.Services.Tests.Unit
 
         #endregion
 
-        #region GetUrlByShortUrlTests
+        #region GetUrlTests
 
         [Fact]
-        public async Task GetUrlByShortUrl_WhenCalledWithExistingEntity_ReturnsCorrectType()
+        public async Task GetUrl_WhenCalledWithExistingEntity_ReturnsCorrectType()
         {
             // Arrange
             var shortUrl = "197dec01";
@@ -117,14 +117,14 @@ namespace UrlShortener.Services.Tests.Unit
                 .ReturnsAsync(url);
 
             // Act
-            var result = await this.sut.GetUrlByShortUrl(shortUrl);
+            var result = await this.sut.GetUrl(shortUrl);
 
             // Assert
             result.Should().NotBeNull().And.BeOfType<Url>();
         }
 
         [Fact]
-        public async Task GetUrlByShortUrl_WhenCalledWithNonExistingEntity_ReturnsNull()
+        public async Task GetUrl_WhenCalledWithNonExistingEntity_ReturnsNull()
         {
             // Arrange
             this.urlRepository
@@ -132,7 +132,7 @@ namespace UrlShortener.Services.Tests.Unit
                 .ReturnsAsync((Url)null);
 
             // Act
-            var result = await this.sut.GetUrlByShortUrl(It.IsAny<string>());
+            var result = await this.sut.GetUrl(It.IsAny<string>());
 
             // Assert
             result.Should().BeNull();

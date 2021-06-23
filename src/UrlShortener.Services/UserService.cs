@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿#pragma warning disable CS1591
+using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using System;
