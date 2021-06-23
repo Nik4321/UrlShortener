@@ -4,6 +4,7 @@ using UrlShortener.Data.Models.Entities;
 using UrlShortener.Infrastructure.Constants;
 using UrlShortener.Infrastructure.Exceptions;
 using UrlShortener.Infrastructure.Extensions;
+using UrlShortener.Infrastructure.Helpers;
 using UrlShortener.Repositories;
 
 namespace UrlShortener.Services
@@ -40,7 +41,7 @@ namespace UrlShortener.Services
 
             if (expireDate.HasValue && expireDate.Value > 0)
             {
-                url.ExpirationDate = UnixTimeToDateTime(expireDate.Value);
+                url.ExpirationDate = UrlHelpers.ConvertUnixTimeToDateTime(expireDate.Value);
             }
 
             await this.urlRepository.AddAsync(url);
@@ -72,9 +73,9 @@ namespace UrlShortener.Services
         #region Helper Methods
 
         /// <summary>
-        /// 
+        /// Used to generate short url for <see cref="Url"/> entity
         /// </summary>
-        /// <returns></returns>
+        /// <returns>A task with the generated short url</returns>
         private async Task<string> GenerateShortUrl()
         {
             while (true)
@@ -87,18 +88,6 @@ namespace UrlShortener.Services
                     return url;
                 }
             }
-        }
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="unixTimeStamp"></param>
-        /// <returns></returns>
-        private static DateTime UnixTimeToDateTime(long unixTimeStamp)
-        {
-            var dateTime = new DateTime(1970, 1, 1, 0, 0, 0, 0, DateTimeKind.Utc);
-            var result = dateTime.AddSeconds(unixTimeStamp);
-            return result;
         }
 
         #endregion
