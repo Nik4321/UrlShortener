@@ -8,7 +8,7 @@
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
     <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
     <WarningsAsErrors />
-    <DocumentationFile>obj\Debug\netcoreapp3.1\UrlShortener.API.xml</DocumentationFile>
+    <DocumentationFile>obj\Debug\netcoreapp3.1\UrlShortener.Api.xml</DocumentationFile>
   </PropertyGroup>
 
   <ItemGroup>
