@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿#pragma warning disable 1591
+using System.Diagnostics.CodeAnalysis;
 
 namespace UrlShortener.Infrastructure.Settings
 {
