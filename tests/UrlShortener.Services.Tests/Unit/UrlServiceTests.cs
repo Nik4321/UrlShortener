@@ -132,7 +132,7 @@ namespace UrlShortener.Services.Tests.Unit
                 .ReturnsAsync((Url)null);
 
             // Act
-            var result = await this.sut.GetUrl(It.IsAny<string>());
+            var result = await this.sut.GetUrl("test");
 
             // Assert
             result.Should().BeNull();
