@@ -2,6 +2,9 @@
 
 namespace UrlShortener.Infrastructure.Helpers
 {
+    /// <summary>
+    /// Helper methods for url
+    /// </summary>
     public static class UrlHelpers
     {
         /// <summary>
