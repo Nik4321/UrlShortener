@@ -26,9 +26,10 @@ namespace UrlShortener.Data
             services
                 .AddDbContext<UrlShortenerDbContext>(
                     options => options.UseMySql(this.configuration.GetConnectionString("DefaultConnection"),
+                        new MariaDbServerVersion(new Version(10, 1, 40)),
                         mySqlOptions =>
                         {
-                            mySqlOptions.ServerVersion(new Version(10, 1, 40), ServerType.MariaDb);
+                            mySqlOptions.EnableRetryOnFailure(3);
                         }
                     ));
         }

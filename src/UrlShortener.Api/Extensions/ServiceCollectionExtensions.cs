@@ -52,7 +52,11 @@ namespace UrlShortener.API.Extensions
             services
                 .AddDbContext<UrlShortenerDbContext>(
                     options => options.UseMySql(configuration.GetConnectionString("DefaultConnection"),
-                        sqlOptions => { sqlOptions.ServerVersion(new Version(10, 1, 40), ServerType.MariaDb); }));
+                        new MariaDbServerVersion(new Version(10, 1, 40)),
+                        options =>
+                        {
+                            options.EnableRetryOnFailure(3);
+                        }));
         }
 
         private static void RegisterHealthCheck(IServiceCollection services)
