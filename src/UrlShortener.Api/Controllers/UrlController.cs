@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
+using System.Net;
 using System.Threading.Tasks;
 using UrlShortener.Data.Models.Dtos.Errors;
 using UrlShortener.Data.Models.Dtos.Url;
@@ -40,12 +41,12 @@ namespace UrlShortener.API.Controllers
         public async Task<IActionResult> Get(string shortUrl)
         {
             var url = await this.urlService.GetUrl(shortUrl);
-            if (url == null) return this.GetUrlErrorResponse(400, "Not found", "Url not found");
+            if (url == null) return this.GetUrlErrorResponse(HttpStatusCode.BadRequest, "Url not found");
 
             var hasUrlExpired = this.urlService.HasUrlExpired(url);
             if (hasUrlExpired)
             {
-                return this.GetUrlErrorResponse(400, "Not found", "Url expired");
+                return this.GetUrlErrorResponse(HttpStatusCode.BadRequest, "Url expired");
             }
 
             return this.Redirect(url.LongUrl);
@@ -71,9 +72,9 @@ namespace UrlShortener.API.Controllers
         private string FormatShortUrlResponse(string shortUrl) =>
             $"{this.Request.Scheme}://{this.Request.Host}{this.Request.PathBase}/{shortUrl}";
 
-        private BadRequestObjectResult GetUrlErrorResponse(int statusCode, string statusDescription, string message)
+        private BadRequestObjectResult GetUrlErrorResponse(HttpStatusCode code, string message)
         {
-            var badRequestResponse = new BaseResponseError(statusCode, statusDescription, message);
+            var badRequestResponse = new ApiError(code, message);
             return this.BadRequest(badRequestResponse);
         }
     }
