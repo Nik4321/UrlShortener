@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using UrlShortener.Data.Models.Entities;
 using UrlShortener.Data.Repositories;
+using UrlShortener.Infrastructure;
 using UrlShortener.Infrastructure.Constants;
 using UrlShortener.Infrastructure.Exceptions;
 using UrlShortener.Infrastructure.Extensions;
@@ -51,10 +52,7 @@ namespace UrlShortener.Services
         /// <inheritdoc/>
         public Task<Url> GetUrl(string shortUrl)
         {
-            if (string.IsNullOrWhiteSpace(shortUrl))
-            {
-                throw new ArgumentNullException(nameof(shortUrl));
-            }
+            AssertArgument.NotNull(shortUrl, nameof(shortUrl));
 
             return this.urlRepository.GetByShortUrl(shortUrl);
         }

@@ -1,4 +1,7 @@
-﻿using FluentAssertions;
+﻿using AutoFixture;
+using AutoFixture.AutoMoq;
+using AutoFixture.Idioms;
+using FluentAssertions;
 using Moq;
 using System;
 using System.Threading.Tasks;
@@ -14,19 +17,27 @@ namespace UrlShortener.Services.Tests.Unit
     {
         private const string TestLongUrl = "https://google.com/";
 
+        private readonly IFixture fixture;
         private readonly Mock<IUrlRepository> urlRepository;
         private readonly IUrlService sut;
 
         public UrlServiceTests()
         {
-            this.urlRepository = new Mock<IUrlRepository>();
-            this.sut = new UrlService(this.urlRepository.Object);
+            this.fixture = new Fixture().Customize(new AutoMoqCustomization());
+            this.urlRepository = fixture.Freeze<Mock<IUrlRepository>>();
+            this.sut = fixture.Create<UrlService>();
+        }
+
+        [Fact]
+        public void CheckConstructorArguments()
+        {
+            new GuardClauseAssertion(this.fixture).Verify(typeof(UrlService).GetConstructors());
         }
 
         #region ShortenUrlTests
 
         [Fact]
-        public async Task ShortenUrl_WhenCalledWithValidUrl_ShouldReturnUrl()
+        public async Task ShortenUrl_ShouldReturnUrl_WhenCalledWithValidUrl()
         {
             // Arrange
             var shortUrl = "197dec01";
@@ -55,7 +66,7 @@ namespace UrlShortener.Services.Tests.Unit
         }
 
         [Fact]
-        public async Task ShortenUrl_WhenCalledWithValidUrl_ReturnsCorrectUrlObject()
+        public async Task ShortenUrl_ShouldReturnCorrectUrlObject_WhenCalledWithValidUrl()
         {
             // Act
             var result = await this.sut.ShortenUrl(TestLongUrl);
@@ -66,7 +77,7 @@ namespace UrlShortener.Services.Tests.Unit
         }
 
         [Fact]
-        public async Task ShortenUrl_WhenCalledWithValidUrlAndExpireDate_ReturnsUrlObjectWithExpireDate()
+        public async Task ShortenUrl_ShouldReturnUrlObjectWithExpireDate_WhenCalledWithValidUrlAndExpireDate()
         {
             // Arrange
             // 03/08/2020 @ 6:23pm - 1583691810
@@ -81,7 +92,7 @@ namespace UrlShortener.Services.Tests.Unit
         }
 
         [Fact]
-        public void ShortenUrl_WhenCalledWithInvalidUrl_ThrowsInvalidUrlException()
+        public void ShortenUrl_ShouldThrowInvalidUrlException_WhenCalledWithInvalidUrl()
         {
             // Act
             var result = this.sut.Invoking(x => x.ShortenUrl(It.IsAny<string>()).GetAwaiter().GetResult());
@@ -97,7 +108,7 @@ namespace UrlShortener.Services.Tests.Unit
         #region GetUrlTests
 
         [Fact]
-        public async Task GetUrl_WhenCalledWithExistingEntity_ReturnsCorrectType()
+        public async Task GetUrl_ShouldReturnCorrectType_WhenCalledWithExistingEntity()
         {
             // Arrange
             var shortUrl = "197dec01";
@@ -124,7 +135,7 @@ namespace UrlShortener.Services.Tests.Unit
         }
 
         [Fact]
-        public async Task GetUrl_WhenCalledWithNonExistingEntity_ReturnsNull()
+        public async Task GetUrl_ShouldReturnNull_WhenCalledWithNonExistingEntity()
         {
             // Arrange
             this.urlRepository
@@ -145,7 +156,7 @@ namespace UrlShortener.Services.Tests.Unit
         [Theory]
         [InlineData(5, false)]
         [InlineData(-5, true)]
-        public void HasUrlExpired_WithExpirationDate_ReturnsCorrectBoolean(int hoursToAddToExpiration, bool expectedResult)
+        public void HasUrlExpired_ShouldReturnCorrectBoolean_WithExpirationDate(int hoursToAddToExpiration, bool expectedResult)
         {
             // Arrange
             var shortUrl = "197dec01";
@@ -164,7 +175,7 @@ namespace UrlShortener.Services.Tests.Unit
         }
 
         [Fact]
-        public void HasUrlExpired_WithNoExpiredDate_ReturnsTrue()
+        public void HasUrlExpired_ShouldReturnTrue_WithNoExpiredDate()
         {
             // Arrange
             var shortUrl = "197dec01";
