@@ -14,6 +14,8 @@ namespace UrlShortener.Infrastructure.Extensions
         /// <returns></returns>
         public static bool IsValidUrl(this string value)
         {
+            AssertArgument.NotNull(value, nameof(value));
+
             return Uri.TryCreate(value, UriKind.Absolute, out var uriResult)
                    && (uriResult.Scheme == Uri.UriSchemeHttp || uriResult.Scheme == Uri.UriSchemeHttps);
         }

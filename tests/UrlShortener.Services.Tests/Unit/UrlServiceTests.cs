@@ -9,6 +9,7 @@ using UrlShortener.Data.Models.Entities;
 using UrlShortener.Data.Repositories;
 using UrlShortener.Infrastructure.Constants;
 using UrlShortener.Infrastructure.Exceptions;
+using UrlShortener.Infrastructure.Extensions;
 using Xunit;
 
 namespace UrlShortener.Services.Tests.Unit
@@ -95,7 +96,9 @@ namespace UrlShortener.Services.Tests.Unit
         public void ShortenUrl_ShouldThrowInvalidUrlException_WhenCalledWithInvalidUrl()
         {
             // Act
-            var result = this.sut.Invoking(x => x.ShortenUrl(It.IsAny<string>()).GetAwaiter().GetResult());
+            var url = fixture.Create<string>();
+
+            var result = this.sut.Invoking(x => x.ShortenUrl(url).GetAwaiter().GetResult());
 
             // Assert
             result.Should()
