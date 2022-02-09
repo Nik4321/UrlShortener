@@ -9,10 +9,10 @@ using UrlShortener.Data.Models.Entities;
 using UrlShortener.Data.Repositories;
 using UrlShortener.Infrastructure.Constants;
 using UrlShortener.Infrastructure.Exceptions;
-using UrlShortener.Infrastructure.Extensions;
+using UrlShortener.Infrastructure.Services;
 using Xunit;
 
-namespace UrlShortener.Services.Tests.Unit
+namespace UrlShortener.Infrastructure.Tests.Services
 {
     public class UrlServiceTests
     {

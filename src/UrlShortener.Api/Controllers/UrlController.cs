@@ -6,7 +6,7 @@ using System.Net;
 using System.Threading.Tasks;
 using UrlShortener.Data.Models.Dtos.Errors;
 using UrlShortener.Data.Models.Dtos.Url;
-using UrlShortener.Services;
+using UrlShortener.Infrastructure.Services;
 
 namespace UrlShortener.API.Controllers
 {

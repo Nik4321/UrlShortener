@@ -2,13 +2,12 @@
 using System.Threading.Tasks;
 using UrlShortener.Data.Models.Entities;
 using UrlShortener.Data.Repositories;
-using UrlShortener.Infrastructure;
 using UrlShortener.Infrastructure.Constants;
 using UrlShortener.Infrastructure.Exceptions;
 using UrlShortener.Infrastructure.Extensions;
 using UrlShortener.Infrastructure.Helpers;
 
-namespace UrlShortener.Services
+namespace UrlShortener.Infrastructure.Services
 {
     /// <inheritdoc/>
     public class UrlService : IUrlService

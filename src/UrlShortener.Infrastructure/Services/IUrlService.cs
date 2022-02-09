@@ -1,7 +1,7 @@
 ﻿using System.Threading.Tasks;
 using UrlShortener.Data.Models.Entities;
 
-namespace UrlShortener.Services
+namespace UrlShortener.Infrastructure.Services
 {
     /// <summary>
     /// A service that will handle <see cref="Url"/> operations.

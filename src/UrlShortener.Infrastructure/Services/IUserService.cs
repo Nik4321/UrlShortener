@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using UrlShortener.Data.Models.Dtos.Authorize;
 
-namespace UrlShortener.Services
+namespace UrlShortener.Infrastructure.Services
 {
     public interface IUserService
     {

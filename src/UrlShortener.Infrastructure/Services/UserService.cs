@@ -14,7 +14,7 @@ using UrlShortener.Data.Models.Entities;
 using UrlShortener.Infrastructure.Exceptions;
 using UrlShortener.Infrastructure.Settings;
 
-namespace UrlShortener.Services
+namespace UrlShortener.Infrastructure.Services
 {
     public class UserService : IUserService
     {
