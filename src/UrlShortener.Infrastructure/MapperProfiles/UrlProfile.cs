@@ -2,7 +2,7 @@
 using UrlShortener.Data.Models.Dtos.Url;
 using UrlShortener.Data.Models.Entities;
 
-namespace UrlShortener.Data.MapperProfiles
+namespace UrlShortener.Infrastructure.MapperProfiles
 {
     /// <summary>
     /// Profile for the auto mapper configuration for <see cref="ResponseUrl"/>
