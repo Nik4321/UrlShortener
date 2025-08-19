@@ -1,10 +1,5 @@
 ﻿using AutoMapper;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UrlShortener.Data.MapperProfiles;
+using UrlShortener.Infrastructure.MapperProfiles;
 using Xunit;
 using Xunit.Abstractions;
 
