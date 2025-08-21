@@ -20,7 +20,8 @@ namespace UrlShortener.Infrastructure.Tests.MapperProfiles
         public void AllProfilesShouldHaveValidConfiguration()
         {
             var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
-            var sut = new MapperConfiguration(cfg => {
+            var sut = new MapperConfiguration(cfg =>
+            {
                 cfg.AddMaps(typeof(UrlProfile).Assembly);
             }, loggerFactory);
 
@@ -37,10 +38,7 @@ namespace UrlShortener.Infrastructure.Tests.MapperProfiles
                             this.testOutputHelper.WriteLine(
                                 $"Warning: {map.DestinationType} > {map.SourceType.Name} - {prop.SourceMember.Name} does not match {prop.DestinationMember.Name}");
                         }
-                        catch
-                        {
-
-                        }
+                        catch { }
                     }
                 }
             }
