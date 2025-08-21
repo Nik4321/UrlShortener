@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.WebUtilities;
-using Newtonsoft.Json;
 using System.Net;
 
 namespace UrlShortener.Data.Models.Dtos.Errors
@@ -23,19 +22,16 @@ namespace UrlShortener.Data.Models.Dtos.Errors
         /// <summary>
         /// The error code
         /// </summary>
-        [JsonProperty(Order = 1)]
         public HttpStatusCode Code { get; }
 
         /// <summary>
         /// The error code name
         /// </summary>
-        [JsonProperty(Order = 2)]
         public string CodeName => ReasonPhrases.GetReasonPhrase((int)Code);
 
         /// <summary>
         /// The error message
         /// </summary>
-        [JsonProperty(Order = 3)]
         public string Message { get; }
     }
 }

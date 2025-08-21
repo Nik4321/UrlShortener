@@ -76,7 +76,7 @@ namespace UrlShortener.API.Extensions
 
         private static void RegisterAutoMapper(IServiceCollection services)
         {
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddAutoMapper(cfg => { }, AppDomain.CurrentDomain.GetAssemblies());
         }
 
         private static void RegisterSwagger(IServiceCollection services)

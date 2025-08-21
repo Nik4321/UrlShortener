@@ -1,4 +1,6 @@
 ﻿using AutoMapper;
+using AutoMapper.Internal;
+using Microsoft.Extensions.Logging;
 using UrlShortener.Infrastructure.MapperProfiles;
 using Xunit;
 using Xunit.Abstractions;
@@ -17,9 +19,12 @@ namespace UrlShortener.Infrastructure.Tests.MapperProfiles
         [Fact]
         public void AllProfilesShouldHaveValidConfiguration()
         {
-            var sut = new MapperConfiguration(x => x.AddMaps(typeof(UrlProfile).Assembly));
+            var loggerFactory = LoggerFactory.Create(builder => builder.AddConsole());
+            var sut = new MapperConfiguration(cfg => {
+                cfg.AddMaps(typeof(UrlProfile).Assembly);
+            }, loggerFactory);
 
-            var maps = sut.GetAllTypeMaps();
+            var maps = sut.Internal().GetAllTypeMaps();
 
             foreach (var map in maps)
             {

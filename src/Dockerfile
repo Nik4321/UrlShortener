@@ -1,5 +1,5 @@
 # Build stage
-FROM mcr.microsoft.com/dotnet/sdk:5.0 AS build
+FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
 
 COPY ["UrlShortener.sln", "./"]
@@ -9,14 +9,17 @@ COPY ["UrlShortener.Infrastructure/UrlShortener.Infrastructure.csproj", "UrlShor
 COPY ["UrlShortener.Infrastructure.Tests/UrlShortener.Infrastructure.Tests.csproj", "UrlShortener.Infrastructure.Tests/"]
 
 RUN dotnet restore
-
 COPY . .
-RUN dotnet publish -c Release -o /app/publish
+
+RUN dotnet build -c Release --no-restore
+
+FROM build AS publish
+RUN dotnet publish "UrlShortener.Api/UrlShortener.Api.csproj" -c Release -o /app/publish/api --no-build
 
 # Runtime stage
-FROM mcr.microsoft.com/dotnet/aspnet:5.0 AS urlshortener
+FROM mcr.microsoft.com/dotnet/aspnet:9.0 AS urlshortener
+ENV ASPNETCORE_URLS=http://+:80
 WORKDIR /app
-
-COPY --from=build /app/publish .
+COPY --from=publish /app/publish/api .
 ENTRYPOINT ["dotnet", "UrlShortener.Api.dll"]
 
