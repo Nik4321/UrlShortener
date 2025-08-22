@@ -1,8 +1,8 @@
 ﻿using AutoFixture;
 using AutoFixture.AutoMoq;
 using AutoFixture.Idioms;
-using FluentAssertions;
 using Moq;
+using Shouldly;
 using System;
 using System.Threading.Tasks;
 using UrlShortener.Data.Models.Entities;
@@ -20,7 +20,7 @@ namespace UrlShortener.Infrastructure.Tests.Services
 
         private readonly IFixture fixture;
         private readonly Mock<IUrlRepository> urlRepository;
-        private readonly IUrlService sut;
+        private readonly UrlService sut;
 
         public UrlServiceTests()
         {
@@ -63,22 +63,23 @@ namespace UrlShortener.Infrastructure.Tests.Services
             this.urlRepository
                 .Verify(x => x.AddAsync(It.IsAny<Url>(), true));
 
-            result.Should().Equals(url);
+            result.ShouldBe(url);
         }
 
         [Fact]
-        public async Task ShortenUrl_ShouldReturnCorrectUrlObject_WhenCalledWithValidUrl()
+        public async Task ShortenUrl_ShouldSaveLongUrl_WhenCalledWithValidUrl()
         {
             // Act
             var result = await this.sut.ShortenUrl(TestLongUrl);
 
             // Assert
-            result.Should()
-                .Match<Url>(x => x.LongUrl == TestLongUrl);
+            this.urlRepository
+                .Verify(x => x.AddAsync(It.Is<Url>(u => u.LongUrl == TestLongUrl), true),
+                Times.Once);
         }
 
         [Fact]
-        public async Task ShortenUrl_ShouldReturnUrlObjectWithExpireDate_WhenCalledWithValidUrlAndExpireDate()
+        public async Task ShortenUrl_ShouldSaveExpireDate_WhenCalledWithValidUrlAndExpireDate()
         {
             // Arrange
             // 03/08/2020 @ 6:23pm - 1583691810
@@ -89,21 +90,21 @@ namespace UrlShortener.Infrastructure.Tests.Services
             var result = await this.sut.ShortenUrl(TestLongUrl, seconds);
 
             // Assert
-            Assert.Equal(result.ExpirationDate, expectedExpirationDate);
+            this.urlRepository
+                .Verify(x => x.AddAsync(It.Is<Url>(u => u.ExpirationDate == expectedExpirationDate), true),
+                Times.Once);
         }
 
         [Fact]
         public void ShortenUrl_ShouldThrowInvalidUrlException_WhenCalledWithInvalidUrl()
         {
-            // Act
+            // Arrange
             var url = fixture.Create<string>();
 
-            var result = this.sut.Invoking(x => x.ShortenUrl(url).GetAwaiter().GetResult());
+            // Act & Assert
+            var ex = Should.Throw<InvalidUrlException>(() => this.sut.ShortenUrl(url).GetAwaiter().GetResult());
 
-            // Assert
-            result.Should()
-                .Throw<InvalidUrlException>()
-                .WithMessage(ExceptionMessagesConstants.InvalidUrlExceptionMessage);
+            ex.Message.ShouldBe(ExceptionMessagesConstants.InvalidUrlExceptionMessage);
         }
 
         #endregion
@@ -111,7 +112,7 @@ namespace UrlShortener.Infrastructure.Tests.Services
         #region GetUrlTests
 
         [Fact]
-        public async Task GetUrl_ShouldReturnCorrectType_WhenCalledWithExistingEntity()
+        public async Task GetUrl_ShouldReturnUrl_WhenCalledWithExistingEntity()
         {
             // Arrange
             var shortUrl = "197dec01";
@@ -134,7 +135,7 @@ namespace UrlShortener.Infrastructure.Tests.Services
             var result = await this.sut.GetUrl(shortUrl);
 
             // Assert
-            result.Should().NotBeNull().And.BeOfType<Url>();
+            result.ShouldBe(url);
         }
 
         [Fact]
@@ -149,7 +150,7 @@ namespace UrlShortener.Infrastructure.Tests.Services
             var result = await this.sut.GetUrl("test");
 
             // Assert
-            result.Should().BeNull();
+            result.ShouldBeNull();
         }
 
         #endregion
@@ -174,7 +175,7 @@ namespace UrlShortener.Infrastructure.Tests.Services
             var result = this.sut.HasUrlExpired(url);
 
             // Assert
-            result.Should().Be(expectedResult);
+            result.ShouldBe(expectedResult);
         }
 
         [Fact]
@@ -193,7 +194,7 @@ namespace UrlShortener.Infrastructure.Tests.Services
             var result = this.sut.HasUrlExpired(url);
 
             // Assert
-            result.Should().BeFalse();
+            result.ShouldBeFalse();
         }
 
         #endregion

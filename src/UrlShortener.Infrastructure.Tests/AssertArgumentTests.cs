@@ -1,4 +1,4 @@
-using FluentAssertions;
+using Shouldly;
 using System;
 using System.Collections.Generic;
 using Xunit;
@@ -11,7 +11,7 @@ namespace UrlShortener.Infrastructure.Tests
         public void IsNotNull_ShouldThrowArgumentNullException_WithNullArgument()
         {
             var argumentException = Assert.Throws<ArgumentNullException>(() => AssertArgument.NotNull(null, "testName"));
-            argumentException.ParamName.Should().Be("testName");
+            argumentException.ParamName.ShouldBe("testName");
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace UrlShortener.Infrastructure.Tests
             var argumentNullException = Assert.Throws<ArgumentNullException>(() =>
                 AssertArgument.NotNullOrWhiteSpace(argumentValue, argumentName, message));
 
-            argumentNullException.ParamName.Should().Be(argumentName);
+            argumentNullException.ParamName.ShouldBe(argumentName);
         }
 
         [Theory]
@@ -45,8 +45,8 @@ namespace UrlShortener.Infrastructure.Tests
             var argumentException = Assert.Throws<ArgumentException>(() =>
                 AssertArgument.NotNullOrWhiteSpace(argumentValue, argumentName, message));
 
-            argumentException.ParamName.Should().Be(argumentName);
-            argumentException.Message.Should().StartWith(message);
+            argumentException.ParamName.ShouldBe(argumentName);
+            argumentException.Message.ShouldStartWith(message);
         }
 
         [Fact]
@@ -61,7 +61,7 @@ namespace UrlShortener.Infrastructure.Tests
             var argumentNullException = Assert.Throws<ArgumentNullException>(() =>
                 AssertArgument.NotNullOrEmpty(null, "ArgumentName", "Failed"));
 
-            argumentNullException.ParamName.Should().Be("ArgumentName");
+            argumentNullException.ParamName.ShouldBe("ArgumentName");
         }
 
         [Fact]
@@ -70,8 +70,8 @@ namespace UrlShortener.Infrastructure.Tests
             var argumentNullException = Assert.Throws<ArgumentException>(() =>
                 AssertArgument.NotNullOrEmpty(new List<string>(), "ArgumentName", "Failed1"));
 
-            argumentNullException.ParamName.Should().Be("ArgumentName");
-            argumentNullException.Message.Should().StartWith("Failed1");
+            argumentNullException.ParamName.ShouldBe("ArgumentName");
+            argumentNullException.Message.ShouldStartWith("Failed1");
         }
     }
 }

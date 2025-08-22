@@ -44,8 +44,8 @@ namespace UrlShortener.Infrastructure.Services
                 url.ExpirationDate = UrlHelpers.ConvertUnixTimeToDateTime(expireDate.Value);
             }
 
-            await this.urlRepository.AddAsync(url);
-            return url;
+            var entity = await this.urlRepository.AddAsync(url);
+            return entity;
         }
 
         /// <inheritdoc/>
