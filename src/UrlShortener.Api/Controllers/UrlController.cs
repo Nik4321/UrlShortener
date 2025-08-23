@@ -1,11 +1,11 @@
-﻿using AutoMapper;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Net;
 using System.Threading.Tasks;
 using UrlShortener.Data.Models.Dtos.Errors;
 using UrlShortener.Data.Models.Dtos.Url;
+using UrlShortener.Data.Models.Mapping;
 using UrlShortener.Infrastructure.Services;
 
 namespace UrlShortener.API.Controllers
@@ -16,17 +16,14 @@ namespace UrlShortener.API.Controllers
     [ApiController]
     public class UrlController : Controller
     {
-        private readonly IMapper mapper;
         private readonly IUrlService urlService;
 
         /// <summary>
         /// Constructs an instance of <see cref="UrlController"/>
         /// </summary>
-        /// <param name="mapper"></param>
         /// <param name="urlService"></param>
-        public UrlController(IMapper mapper, IUrlService urlService)
+        public UrlController(IUrlService urlService)
         {
-            this.mapper = mapper ?? throw new ArgumentNullException(nameof(mapper));
             this.urlService = urlService ?? throw new ArgumentNullException(nameof(urlService));
         }
 
@@ -60,10 +57,11 @@ namespace UrlShortener.API.Controllers
         [HttpPost("/")]
         [ProducesDefaultResponseType]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<IActionResult> ShortenUrl([FromBody] CreateUrl model)
+        public async Task<IActionResult> ShortenUrl([FromBody] UrlRequest model)
         {
-            var result = await this.urlService.ShortenUrl(model.LongUrl, model.ExpireDate);
-            var response = this.mapper.Map<ResponseUrl>(result);
+            var entity = await this.urlService.ShortenUrl(model.LongUrl, model.ExpireDate);
+            
+            var response = entity.MapToDto();
             response.ShortUrl = this.FormatShortUrlResponse(response.ShortUrl);
 
             return this.Ok(response);

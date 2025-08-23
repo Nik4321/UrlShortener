@@ -4,7 +4,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace UrlShortener.Data.Models.Dtos.Url
 {
     [ExcludeFromCodeCoverage]
-    public class ResponseUrl
+    public class UrlResponse
     {
         public int Id { get; set; }
 

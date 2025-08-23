@@ -31,7 +31,6 @@ namespace UrlShortener.API.Extensions
             RegisterDbContext(services, configuration);
             RegisterServices(services);
             RegisterRepositories(services);
-            RegisterAutoMapper(services);
             RegisterSwagger(services);
             RegisterCors(services);
             RegisterHealthCheck(services);
@@ -72,11 +71,6 @@ namespace UrlShortener.API.Extensions
         private static void RegisterRepositories(IServiceCollection services)
         {
             services.AddScoped<IUrlRepository, UrlRepository>();
-        }
-
-        private static void RegisterAutoMapper(IServiceCollection services)
-        {
-            services.AddAutoMapper(cfg => { }, AppDomain.CurrentDomain.GetAssemblies());
         }
 
         private static void RegisterSwagger(IServiceCollection services)
